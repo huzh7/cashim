@@ -1,0 +1,56 @@
+server:
+  port: 17001
+  name: opcua-java-server
+  tomcat:
+    uri-encoding: UTF-8 #  设置编码
+    max-threads: 1000 #  最大线程数
+    min-spare-threads: 100 #  最小线程数
+    max-connections: 1000 #  最大连接数
+    accept-count: 1000 #  最大排队数
+    max-http-header-size: 8192 #  最大请求头大小
+    max-swallow-size: 8192 #  最大请求体大小
+    max-keep-alive-requests: 1000 #  最大请求次数
+    connection-timeout: 30000 #  连接超时时间
+  servlet:
+    session:
+      timeout: 3600 #  session过期时间，单位秒
+
+spring:
+  application:
+    name: opcua
+  datasource:
+    name: test
+    url: jdbc:mysql://10.10.55.108:3306/tj_backed?serverTimezone=GMT%2b8&useUnicode=true&characterEncoding=utf-8&autoReconnect=true
+    username: root
+    password: Aa@1234!
+    driverClassName: com.mysql.cj.jdbc.Driver
+    type: com.alibaba.druid.pool.DruidDataSource
+
+  redis:
+    host: 10.10.55.108
+    port: 16379
+    # 密码,如果没有设置可以不填写，设置密码请看redis.conf的requirepass参数
+    password: Aa@1234!
+    # 如果使用的jedis 则将lettuce改成jedis即可
+    jedis:
+      pool:
+        max-active: 200
+        max-idle: 8
+        max-wait: 1
+        min-idle: 0
+    timeout: 0
+opcua:
+  endpoint-url: opc.tcp://10.10.55.208:8888
+  xml-address: xml/OPCUAServer52.xml
+  token-timeout: 1800 #  token过期时间，单位秒
+
+netty:
+  netty-port: 19001
+
+hk:
+  cameraAccount: admin #  海康摄像头账号
+  cameraPassword: abcd1234 #  海康摄像头密码
+  registerPort: 80 #  海康摄像头注册端口
+  streamPort: 554 # 海康摄像头拉流端口
+  ngxinRtmpIP: 127.0.0.1  #  nginx rtmp服务器地址
+  ngxinRtmpPort: 1935 #  nginx rtmp服务器端口

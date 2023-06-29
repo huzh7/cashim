@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.taiji.opcuabackend.mapper.ErrorNodeInfoMapper">
+	
+    <resultMap id="ErrorNodeInfoStatisticsResult" type="com.taiji.opcuabackend.entity.ErrorNodeInfoStatistics">
+        <id     property="id"       column="id"        />
+        <result property="node1"    column="node1"      />
+        <result property="node2"    column="node2"       />
+        <result property="node3"    column="node3"      />
+        <result property="node4"    column="node4"    />
+        <result property="cnt"   column="cnt"    />
+    </resultMap>
+
+    <select id="selectStatisticsErrorNodeInfo" resultMap="ErrorNodeInfoStatisticsResult">
+        SELECT lo.node1 node1, lo.node2 node2, lo.node3 node3, lo.node4 node4, lo.cnt cnt
+         from (SELECT i.node1,i.node2,i.node3,i.node4,count(1) cnt
+                from error_node_info i where `status`= 0
+                 GROUP BY i.node1,i.node2,i.node3,i.node4
+                 ORDER BY cnt desc)
+         as lo LIMIT 10
+    </select>
+	
+</mapper> 

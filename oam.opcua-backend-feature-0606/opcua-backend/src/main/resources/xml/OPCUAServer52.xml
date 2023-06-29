@@ -1,0 +1,945 @@
+<?xml version="1.0" encoding="utf-8"?>
+<opcua_server>
+<!--  Server 名称 (必填) -->
+<name>OPCUAServer</name>
+<!--  Server port (必填) -->
+<port>8888</port>
+<!--  Server policy 信息 (必填) -->
+<!--  选填： None / basic128rsa125 / encrypt with basic128rsa125 / basic256 / encrypt with basic256  -->
+<policy>none</policy>
+<!--  Server Certification 信息 (必填) -->
+<!--  填写 cer 文件路径，不需要时，保持空白 -->
+<serverCertification></serverCertification>
+<!--  Server 信任的client 列表 (Optional) -->
+<trustedClientCertifications>
+  <!--  填写 cer 文件路径，不需要时，保持空白；信任多个client时，Copy 增加新的certification 字段-->
+  <!--  填写 cer 文件路径，不需要时，保持空白 -->
+  <certification></certification>
+</trustedClientCertifications>
+<!--  Server 结构状态 (必填) -->
+<structure>
+	<item name="MIPowerMode" access="read/write" datatype="boolean" initialValue="false" description="开关铁、四极铁的治疗、调束模式"></item>
+	<item name="SSMI52" access="read/write" datatype="int16" initialValue="0" description="52线扫描铁幅值联锁"></item> 
+	<item name="52SPHState" access="read/write" datatype="int16" initialValue="0" description="52线电源状态,故障.频率联锁"></item>
+	<item name="52SPSStateX" access="read/write" datatype="int16" initialValue="0" description="52线X电源软联锁"></item>
+	<item name="52SPSStateY" access="read/write" datatype="int16" initialValue="0" description="52线Y电源软联锁"></item>
+	<item name="SIPState52" access="read/write" datatype="int16" initialValue="0" description="52线开关铁状态"></item>		
+	<folder name="ROMINFO">
+		<item name="PatientInfoModel" access="read/write" datatype="string" initialValue="" description="患者信息"></item>
+		<item name="BeamPlanModel" access="read/write" datatype="string" initialValue="" description="当前治疗射野信息"></item>
+		<item name="PatientTreatPlanModels" access="read/write" datatype="string" initialValue="" description="当前患者治疗计划"></item>
+		<item name="TcsMode" access="read/write" datatype="string" initialValue="" description="TCS 模式"></item>
+		<item name="TcsStatus" access="read/write" datatype="string" initialValue="" description="TCS 治疗状态"></item>
+		<item name="TcsRemoteStatus" access="read/write" datatype="string" initialValue="RemoteClose" description="TCS远程运维状态"></item>
+	</folder>	
+	<folder name="DCCT">
+		<item name="MIPowerMode" access="read/write" datatype="boolean" initialValue="false" description="开关铁、快四极铁的治疗、调束模式"></item>
+		<item name="SIPState" access="read/write" datatype="int16" initialValue="0" description="开关铁状态"></item>
+		<item name="SIPowerValue" access="read/write" datatype="double" initialValue="0" description="开关铁当前电源电流值（A）"></item>
+		<item name="SQPState" access="read/write" datatype="int16" initialValue="0" description="快四状态"></item>
+		<item name="SQPowerValue" access="read/write" datatype="double" initialValue="0" description="快四当前电源电流值（A）"></item>
+		<item name="51PSXState" access="read/write" datatype="int16" initialValue="0" description="51线X电源软联锁"></item>
+		<item name="51PSYState" access="read/write" datatype="int16" initialValue="0" description="51线Y电源软联锁"></item>
+		<item name="54PSXState" access="read/write" datatype="int16" initialValue="0" description="54线X电源软联锁"></item>
+		<item name="54PSYState" access="read/write" datatype="int16" initialValue="0" description="54线Y电源软联锁"></item>
+		<item name="52PSXAmplitudeInterlock" access="read/write" datatype="boolean" initialValue="false" description="52线扫描铁电源X幅值联锁，true为联锁"></item> 
+		<item name="52PSYAmplitudeInterlock" access="read/write" datatype="boolean" initialValue="false" description="52线扫描铁电源Y幅值联锁，true为联锁"></item> 
+		<item name="52PSXFrequency" access="read/write" datatype="boolean" initialValue="false" description="52线扫描铁电源X频率联锁，true为联锁"></item>
+		<item name="52PSYFrequency" access="read/write" datatype="boolean" initialValue="false" description="52线扫描铁电源Y频率联锁，true为联锁"></item>
+		<item name="52PSXState" access="read/write" datatype="int16" initialValue="0" description="52线X电源软联锁"></item>
+		<item name="52PSYState" access="read/write" datatype="int16" initialValue="0" description="52线Y电源软联锁"></item>
+		<item name="52BeamSize" access="read/write" datatype="string" initialValue="" description="52射野大小"></item>
+		<item name="52PowerData" access="read/write" datatype="string" initialValue="" description="52扫描铁参数"></item>
+		<item name="53PSXAmplitudeInterlock" access="read/write" datatype="boolean" initialValue="false" description="53线扫描铁电源X幅值联锁，true为联锁"></item> 
+		<item name="53PSYAmplitudeInterlock" access="read/write" datatype="boolean" initialValue="false" description="53线扫描铁电源Y幅值联锁，true为联锁"></item> 
+		<item name="53PSXFrequency" access="read/write" datatype="boolean" initialValue="false" description="53线扫描铁电源X频率联锁，true为联锁"></item>
+		<item name="53PSYFrequency" access="read/write" datatype="boolean" initialValue="false" description="53线扫描铁电源Y频率联锁，true为联锁"></item>
+		<item name="53PSXState" access="read/write" datatype="int16" initialValue="0" description="53线X电源软联锁"></item>
+		<item name="53PSYState" access="read/write" datatype="int16" initialValue="0" description="53线Y电源软联锁"></item>
+		<item name="53BeamSize" access="read/write" datatype="string" initialValue="" description="53射野大小"></item>
+		<item name="53PowerData" access="read/write" datatype="string" initialValue="" description="53扫描铁参数"></item>
+		<item name="55PSXAmplitudeInterlock" access="read/write" datatype="boolean" initialValue="false" description="55线扫描铁电源X幅值联锁，true为联锁"></item> 
+		<item name="55PSYAmplitudeInterlock" access="read/write" datatype="boolean" initialValue="false" description="55线扫描铁电源Y幅值联锁，true为联锁"></item> 
+		<item name="55PSXFrequency" access="read/write" datatype="boolean" initialValue="false" description="55线扫描铁电源X频率联锁，true为联锁"></item>
+		<item name="55PSYFrequency" access="read/write" datatype="boolean" initialValue="false" description="55线扫描铁电源Y频率联锁，true为联锁"></item>
+		<item name="55PSXState" access="read/write" datatype="int16" initialValue="0" description="55线X电源软联锁"></item>
+		<item name="55PSYState" access="read/write" datatype="int16" initialValue="0" description="55线Y电源软联锁"></item>
+		<item name="55BeamSize" access="read/write" datatype="string" initialValue="" description="55射野大小"></item>
+		<item name="55PowerData" access="read/write" datatype="string" initialValue="" description="55扫描铁参数"></item>
+	</folder>	
+	<!--  束流管理系统 -->
+	<folder name="TBMS">
+		<item name="Request_Queue" access="read/write" datatype="string array" initialValue="" description="束流申请队列"></item>
+		<item name="ACS_CurrentBeam" access="read/write" datatype="string" initialValue="" description="加速器当前出束的能量"></item>
+		<item name="ACS_BeamInfo" access="read/write" datatype="string" initialValue="" description="加速器当前出束的能量_治疗头"></item>
+		<item name="TCS_BeamInfo" access="read/write" datatype="string" initialValue="" description="终端申请的能量_治疗头"></item>
+		<item name="BeamLine" access="read/write" datatype="string" initialValue="" description="加速器当前出束的治疗头"></item>
+		<item name="ACS_Mode" access="read/write" datatype="string" initialValue="" description="加速器当前模式，治疗模式、调束模式"></item>
+		<item name="ACS_Status" access="read/write" datatype="string" initialValue="" description="加速器状态信息"></item>
+		<item name="TBMSStatus" access="read/write" datatype="uint" initialValue="1" description="TBMS为1时可申请，为治疗头编号时不可申请需要等待"></item>
+		<item name="Beam_Request51" access="read/write" datatype="string" initialValue="IDLE" description="申请束流，为空时可申请；"></item>
+		<item name="Beam_Request52" access="read/write" datatype="string" initialValue="IDLE" description="申请束流，为空时可申请；"></item>
+		<item name="Beam_Request53" access="read/write" datatype="string" initialValue="IDLE" description="申请束流，为空时可申请；"></item>
+		<item name="Beam_Request54" access="read/write" datatype="string" initialValue="IDLE" description="申请束流，为空时可申请；"></item>
+		<item name="Beam_Request55" access="read/write" datatype="string" initialValue="IDLE" description="申请束流，为空时可申请；"></item>
+		<item name="Beam_Cancel" access="read/write" datatype="string" initialValue="" description="申请束流，为空时可申请；"></item>		
+		<item name="StartSequence" access="read/write" datatype="string" initialValue="" description="申请出束，需要带sessionID"></item>
+		<item name="StopSequence" access="read/write" datatype="boolean" initialValue="false" description="停止束流触发，true为停止，false为正常"></item>
+		<item name="NeedSleep" access="read/write" datatype="boolean" initialValue="false" description="出束需要延时，true为需要，false不需要"></item>
+		<item name="Sleepping" access="read/write" datatype="uint16" initialValue="0" description="已延时的秒数"></item>	
+		<item name="SequencePermit51" access="read/write" datatype="boolean" initialValue="false" description="51线允许触发，true为允许，false为异常"></item>
+		<item name="SequencePermit52" access="read/write" datatype="boolean" initialValue="false" description="52线允许触发，true为允许，false为异常"></item>
+		<item name="SequencePermit53" access="read/write" datatype="boolean" initialValue="false" description="53线允许触发，true为允许，false为异常"></item>	
+		<item name="SequencePermit54" access="read/write" datatype="boolean" initialValue="false" description="54线允许触发，true为允许，false为异常"></item>
+		<item name="SequencePermit55" access="read/write" datatype="boolean" initialValue="false" description="55线允许触发，true为允许，false为异常"></item>			
+		<item name="BeamAppStatus" access="read/write" datatype="string" initialValue="" description="束流申请状态"></item> 	
+		<item name="ClearInterlockError" access="read/write" datatype="boolean" initialValue="false" description="清除联锁，true为清除，false为正常。"></item>		
+		<item name="Status" access="read/write" datatype="boolean" initialValue="true" description="束流申请系统状态，false为联锁，true为正常。"></item>
+		<item name="ErrorInfo" access="read/write" datatype="string" initialValue="" description="束流申请系统错误码"></item> 	
+		<item name="Heartbeat" access="read/write" datatype="uint" initialValue="1" description="束流申请系统心跳信号"></item>
+	</folder>	
+	<!--  加速器 -->
+	<folder name="ACS">
+		<item name="Mode" access="read/write" datatype="uint16" initialValue="0" description="加速器模式"></item>
+		<item name="Energy" access="read/write" datatype="double" initialValue="0" description="当前能量"></item>
+		<item name="BeamLine" access="read/write" datatype="uint16" initialValue="0" description="加速器当前出束的治疗头"></item>
+		<item name="DI51" access="read/write" datatype="boolean" initialValue="false" description=""></item>
+		<item name="DI52" access="read/write" datatype="boolean" initialValue="false" description=""></item>
+		<item name="DI53" access="read/write" datatype="boolean" initialValue="false" description=""></item>
+		<item name="SP51" access="read/write" datatype="boolean" initialValue="false" description=""></item>
+		<item name="SP52" access="read/write" datatype="boolean" initialValue="false" description=""></item>
+		<item name="SP53" access="read/write" datatype="boolean" initialValue="false" description=""></item>
+	</folder>
+	<!--  能量验证系统 -->
+	<folder name="EVS">
+		<item name="Energy_Request" access="read/write" datatype="string" initialValue="0" description="预设能量"></item>
+		<item name="BeamLine" access="read/write" datatype="string" initialValue="0" description="束流线"></item> 
+		<item name="Energy_Tolerance" access="read/write" datatype="string" initialValue="0" description="能量冗余"></item> 
+		<item name="Energy_ack" access="read/write" datatype="string" initialValue="" description="能量反馈"></item> 
+		<item name="Frequency_Request" access="read/write" datatype="string" initialValue="true" description="预设频率"></item>
+		<item name="Frequency_Tolerance" access="read/write" datatype="string" initialValue="" description="频率冗余"></item> 
+		<item name="Frequency_ack" access="read/write" datatype="string" initialValue="true" description="频率反馈"></item>
+		<item name="Frequency_Interlock" access="read/write" datatype="boolean" initialValue="true" description="频率联锁，false为联锁，true为正常"></item>
+		<item name="Status" access="read/write" datatype="boolean" initialValue="true" description="能量验证系统错误状态，false为联锁，true为正常。"></item>		
+		<item name="ErrorInfo" access="read/write" datatype="string" initialValue="" description="能量验证系统错误码"></item> 	
+		<item name="Heartbeat" access="read/write" datatype="uint" initialValue="1" description="能量验证系统心跳信号"></item>
+		<item name="DisableEVS" access="read/write" datatype="boolean" initialValue="false" description="EVS屏蔽"></item>
+	</folder>		
+	<!--  总联锁系统 -->
+	<folder name="MIOR">
+		<item name="OR1StatusInfo" access="read/write" datatype="boolean array" initialValue="{false,false,false,false,false,false,false,false}" description="MI_OR1信息"></item>
+		<item name="EVS_Status" access="read/write" datatype="boolean" initialValue="" description="EVS联锁状态"></item>
+		<item name="SKO_Status" access="read/write" datatype="boolean" initialValue="" description="引出状态"></item> 
+		<item name="OR2StatusInfo" access="read/write" datatype="boolean array" initialValue="" description="MI_OR2信息"></item>
+		<item name="TCP_Status" access="read/write" datatype="boolean" initialValue="" description="TCP状态"></item> 
+		<item name="Circle_Status" access="read/write" datatype="boolean" initialValue="" description="Circle状态"></item> 
+		<item name="OR1Status" access="read/write" datatype="boolean" initialValue="true" description="MIOR1联锁状态，false为联锁，true为正常。"></item>
+		<item name="OR1ErrorInfo" access="read/write" datatype="string" initialValue="" description="MIOR1联锁信息"></item> 
+		<item name="OR2Status" access="read/write" datatype="boolean" initialValue="true" description="MIOR2联锁状态，false为联锁，true为正常。"></item>
+		<item name="OR2ErrorInfo" access="read/write" datatype="string" initialValue="" description="MIOR2联锁信息"></item>
+		<item name="OR1Heartbeat" access="read/write" datatype="uint" initialValue="1" description="MIOR1心跳信号"></item>
+		<item name="OR2Heartbeat" access="read/write" datatype="uint" initialValue="1" description="MIOR2心跳信号"></item>
+	</folder>	
+	<!--  开关铁系统 -->
+	<folder name="SIP">
+		<item name="ControlCommand" access="read/write" datatype="string" initialValue="" description="发送到SIP的命令"></item>
+		<item name="PowerMode" access="read/write" datatype="string" initialValue="" description="运行状态"></item>
+		<item name="PowerValue" access="read/write" datatype="double" initialValue="0" description="当前电源电流值（A）"></item>
+		<item name="PowerStatus" access="read/write" datatype="string" initialValue="" description="电源状态"></item>
+		<item name="Status" access="read/write" datatype="boolean" initialValue="true" description="系统状态，false为联锁，true为正常。"></item>
+		<item name="ErrorInfo" access="read/write" datatype="string" initialValue="" description="系统错误码"></item> 	
+		<item name="Heartbeat" access="read/write" datatype="uint" initialValue="1" description="系统心跳信号"></item>
+	</folder>		
+	<folder name="SQP">
+		<item name="ControlCommand" access="read/write" datatype="string" initialValue="" description="发送到SIP的命令"></item>
+		<item name="PowerMode" access="read/write" datatype="string" initialValue="" description="运行状态"></item>
+		<item name="PowerValue" access="read/write" datatype="double" initialValue="0" description="当前电源电流值（A）"></item>
+		<item name="PowerStatus" access="read/write" datatype="string" initialValue="" description="电源状态"></item>
+		<item name="Status" access="read/write" datatype="boolean" initialValue="true" description="系统状态，false为联锁，true为正常。"></item>
+		<item name="ErrorInfo" access="read/write" datatype="string" initialValue="" description="系统错误码"></item> 	
+		<item name="Heartbeat" access="read/write" datatype="uint" initialValue="1" description="系统心跳信号"></item>
+	</folder>
+	<folder name="R1">
+		<!--  1号治疗室52线联锁系统OPCUA变量 -->
+		<folder name="MI">
+			<folder name="CIRCLE">
+				<item name="Config" access="read/write" datatype="boolean" initialValue="false" description="配置52线联锁，false开始配置，true开始监测。"></item>
+				<item name="logic" access="read/write" datatype="boolean array" initialValue="" description="配置52线联锁的逻辑性（Server本地配置文件读取）"></item> 
+				<item name="mask" access="read/write" datatype="boolean array" initialValue="" description="配置52线联锁的有效性（Server本地配置文件读取）"></item> 
+				<item name="CIRCLEStatus" access="read/write" datatype="boolean array" initialValue="" description="52线联锁的状态"></item> 
+				<item name="HWStatus" access="read/write" datatype="boolean" initialValue="true" description="52线硬件联锁，false为联锁，true为正常。"></item>
+				<item name="HWErrorInfo" access="read/write" datatype="string" initialValue="" description="52线硬件联锁信息码"></item> 
+				<item name="SWStatus" access="read/write" datatype="boolean" initialValue="true" description="52线软件联锁，false为联锁，true为正常。"></item>
+				<item name="SWErrorInfo" access="read/write" datatype="string" initialValue="" description="52线软件联锁信息码"></item> 	
+				<item name="DisableHWError" access="read/write" datatype="boolean" initialValue="false" description="屏蔽52线硬件联锁，true为屏蔽，false为正常。"></item>
+				<item name="DisableSWError" access="read/write" datatype="boolean" initialValue="false" description="屏蔽52线软件联锁，true为屏蔽，false为正常。"></item>
+				<item name="ClearHWError" access="read/write" datatype="boolean" initialValue="false" description="清除52线硬件联锁，true为清除，false为正常。"></item>
+				<item name="ClearSWError" access="read/write" datatype="boolean" initialValue="false" description="清除52线软件联锁，true为清除，false为正常。"></item>
+				<item name="Heartbeat" access="read/write" datatype="uint" initialValue="1" description="52线联锁系统心跳信号，由cRIO程序更新此值"></item>
+			</folder>
+		</folder>		
+		<!--  1号治疗室脊型过滤器（RF） OPCUA变量 -->
+		<folder name="BMS">
+			<folder name="RF">
+				<item name="Position" access="read/write" datatype="string" initialValue="" description="1号治疗室RF当前位置"></item>
+				<item name="TargetPosition" access="read/write" datatype="string" initialValue="" description="1号治疗室RF目标位置"></item>
+				<item name="MoveStatus" access="read/write" datatype="boolean" initialValue="false" description="1号治疗室RF运动状态，true为运动中，false为运动停止"></item>
+				<item name="MoveCommand" access="read/write" datatype="uint16" initialValue="0" description="....."></item>
+				<item name="MoveComplete" access="read/write" datatype="boolean" initialValue="false" description="1号治疗室RF运动完成状态，true为运动中，false为运动完成"></item>
+				<item name="Stop" access="read/write" datatype="boolean" initialValue="false" description="1号治疗室RF运动停止，true为运动停止，false为正常运动"></item>
+				<item name="Status" access="read/write" datatype="boolean" initialValue="true" description="1号治疗室RF联锁状态，false为联锁，true为正常。"></item>
+				<item name="ErrorInfo" access="read/write" datatype="string" initialValue="" description="1号治疗室RF联锁信息码"></item> 	
+				<item name="ClearError" access="read/write" datatype="boolean" initialValue="false" description="清除1号治疗室RF联锁，true为清除，false为正常。"></item>
+				<item name="Heartbeat" access="read/write" datatype="uint" initialValue="1" description="1号治疗室RF心跳信号"></item>
+			</folder>
+			<folder name="RS">
+				<item name="Position" access="read/write" datatype="string" initialValue="{'Thickness':0}" description="2号治疗室水平治疗头RS当前位置，单位：mm"></item>
+				<item name="TargetPosition" access="read/write" datatype="string" initialValue="" description="2号治疗室水平治疗头RS目标位置，单位：mm"></item>
+				<item name="MoveStatus" access="read/write" datatype="boolean" initialValue="false" description="2号治疗室水平治疗头RS运动状态，true为运动中，false为运动停止"></item>
+				<item name="MoveCommand" access="read/write" datatype="uint16" initialValue="0" description="....."></item>
+				<item name="MoveComplete" access="read/write" datatype="boolean" initialValue="false" description="2号治疗室水平治疗头RS运动完成状态，true为运动中，false为运动完成"></item>
+				<item name="Stop" access="read/write" datatype="boolean" initialValue="false" description="2号治疗室水平治疗头RS运动停止，true为运动停止，false为正常运动"></item>
+				<item name="Status" access="read/write" datatype="boolean" initialValue="true" description="2号治疗室水平治疗头RS联锁状态，false为联锁，true为正常。"></item>
+				<item name="ErrorInfo" access="read/write" datatype="string" initialValue="" description="2号治疗室水平治疗头RS联锁信息码"></item> 	
+				<item name="ClearError" access="read/write" datatype="boolean" initialValue="false" description="清除2号治疗室水平治疗头RS联锁，true为清除，false为正常。"></item>
+				<item name="Heartbeat" access="read/write" datatype="uint" initialValue="1" description="2号治疗室水平治疗头RS心跳信号"></item>
+			</folder>
+		</folder>		
+		<!--  1号治疗室治疗控制面板（TCP） OPCUA变量 -->
+		<folder name="TCP">			
+			<item name="SetNozzleID" access="read/write" datatype="string" initialValue="" description="设置1号治疗室TCP治疗头编号"></item>
+			<item name="SetButtonStatus" access="read/write" datatype="uint16" initialValue="0" description="设置1号治疗室TCP按钮状态"></item>
+			<item name="GetButtonStatus" access="read/write" datatype="uint16" initialValue="0" description="获取1号治疗室TCP按钮状态"></item>
+			<item name="SetIC3PresetValue" access="read/write" datatype="uint" initialValue="0" description="设置1号治疗室TCP IC3的预设计数"></item>
+			<item name="SetIC3CurrentValue" access="read/write" datatype="uint" initialValue="0" description="设置1号治疗室TCP IC3的当前计数"></item>
+			<item name="Status" access="read/write" datatype="boolean" initialValue="true" description="1号治疗室TCP联锁状态，false为联锁，true为正常。"></item>
+			<item name="ErrorInfo" access="read/write" datatype="string" initialValue="" description="1号治疗室TCP联锁信息码"></item> 	
+			<item name="ClearError" access="read/write" datatype="boolean" initialValue="false" description="清除1号治疗室TCP联锁，true为清除，false为正常。"></item>
+			<item name="Heartbeat" access="read/write" datatype="uint" initialValue="1" description="1号治疗室TCP心跳信号"></item>	
+			<item name="GetTCPCmd" access="read/write" datatype="uint16" initialValue="1" description="获取TCP命令"></item>	
+			<item name="SetTCPCmd" access="read/write" datatype="uint16" initialValue="1" description="设置TCP命令"></item>	
+			<item name="ButtonStatus" access="read/write" datatype="uint16" initialValue="0" description="TCP状态"></item>				
+		</folder>		
+		<!--  1号治疗室治疗室内需要的数据 -->
+		<folder name="ROOM">			
+			<item name="PatientInfo" access="read/write" datatype="string" initialValue="" description="加载的患者信息"></item>
+			<item name="ciGPSInfo" access="read/write" datatype="string" initialValue="" description="图像配准的信息，每次TCS加载患者后将此变量值空"></item>
+			<item name="TargetCouchInfo" access="read/write" datatype="string" initialValue="" description="目标治疗床的位置信息"></item>
+			<item name="BarcodeInfo" access="read/write" datatype="string" initialValue="" description="扫描枪扫描获得的条码"></item>	
+			<item name="BeamInfo" access="read/write" datatype="string" initialValue="" description="射野信息"></item>
+			<item name="PatientSupportAngle" access="read/write" datatype="double" initialValue="" description="射野入射角，床角"></item>
+			<item name="TreatProgress" access="read/write" datatype="string" initialValue="" description="治疗大厅进度"></item>
+			
+		</folder>
+		<!--  1号治疗室剂量配送系统（DDS） OPCUA变量 -->
+		<folder name="DDS">						
+			<item name="ControlCommand" access="read/write" datatype="uint16" initialValue="1" description="1号治疗室DDS控制命令"></item>
+			<item name="BDControl" access="read/write" datatype="uint16" initialValue="0" description="1号治疗室分条控制命令"></item>
+			<item name="DDSData" access="read/write" datatype="string" initialValue="" description="本次治疗的数据"></item>
+			<item name="SpotPresetMU" access="read/write" datatype="uint" initialValue="0" description="点预设计数（IC1的预设计数）"></item>
+			<item name="LayerPresetMU" access="read/write" datatype="uint" initialValue="0" description="层预设计数（IC2的预设计数）"></item>
+			<item name="SpotCountPreset" access="read/write" datatype="uint" initialValue="0" description="本层预设点个数"></item>
+			<item name="SpotCountFinished" access="read/write" datatype="uint" initialValue="0" description="本层已扫描点个数"></item>
+			<item name="CurrentSpotMU" access="read/write" datatype="uint" initialValue="0" description="当前点计数（IC1的当前计数）"></item>
+			<item name="CurrentLayerMU" access="read/write" datatype="uint" initialValue="0" description="当前层计数（IC2的当前计数）"></item>
+			<item name="CurrentLayer" access="read/write" datatype="uint" initialValue="0" description="当前层"></item>
+			<item name="CurrentXPosition" access="read/write" datatype="double" initialValue="0" description="当前点X坐标"></item>
+			<item name="CurrentYPosition" access="read/write" datatype="double" initialValue="0" description="当前点Y坐标"></item>
+			<item name="LayerEnergy" access="read/write" datatype="double" initialValue="0" description="当前层所需能量"></item>
+			<item name="PowerXMode" access="read/write" datatype="string" initialValue="" description="X电源运行模式"></item>
+			<item name="PowerXValue" access="read/write" datatype="double" initialValue="0" description="当前X电源电流值（A）"></item>
+			<item name="PowerXStatus" access="read/write" datatype="string" initialValue="" description="X电源状态"></item>
+			<item name="PowerYMode" access="read/write" datatype="string" initialValue="" description="Y电源运行模式"></item>
+			<item name="PowerYValue" access="read/write" datatype="double" initialValue="0" description="当前Y电源电流值（A）"></item>
+			<item name="PowerYStatus" access="read/write" datatype="string" initialValue="" description="Y电源状态"></item>
+			<item name="SetPowerCommand" access="read/write" datatype="uint16" initialValue="0" description="电源控制命令（开机、关机、复位、归零）"></item>
+			<item name="CurrentCommand" access="read/write" datatype="uint16" initialValue="0" description="1号治疗室DDS当前指令"></item>
+			<item name="EnablePositionInterlock" access="read/write" datatype="boolean" initialValue="false" description="启用位置联锁，true为启用，false为禁用（治疗模式下设置无效）"></item>			
+			<item name="ControllerStatus" access="read/write" datatype="boolean" initialValue="false" description="DDS控制器联锁状态，false为联锁，true为正常。"></item>
+			<item name="ControllerErrorInfo" access="read/write" datatype="string" initialValue="" description="DDS控制器联锁详细信息"></item> 	
+			<item name="ClearControllerError" access="read/write" datatype="boolean" initialValue="false" description="清除DDS控制器联锁，true为清除，false为正常。"></item>
+			<item name="Status" access="read/write" datatype="boolean" initialValue="true" description="DDS系统联锁状态，false为联锁，true为正常。"></item>
+			<item name="ErrorInfo" access="read/write" datatype="string" initialValue="" description="DDS系统联锁信息码"></item> 	
+			<item name="ClearError" access="read/write" datatype="boolean" initialValue="false" description="清除DDS系统联锁，true为清除，false为正常。"></item>
+			<item name="Heartbeat" access="read/write" datatype="uint" initialValue="1" description="DDS心跳信号"></item>
+			<item name="BeamApplyHeartbeat" access="read/write" datatype="uint" initialValue="0" description="DDS申请束流等待时间（s）"></item>
+			<item name="CurrentSpotIndex" access="read/write" datatype="uint" initialValue="0" description="DDS点索引"></item>
+			<item name="SystemInfo" access="read/write" datatype="string" initialValue="" description="DDS系统状态"></item>		
+			<item name="PowerHeartbeat" access="read/write" datatype="uint" initialValue="1" description="DDS心跳信号"></item>
+			<item name="ClearPosInterlock" access="read/write" datatype="boolean" initialValue="false" description="清除DDS weizhi联锁，true为清除，false为正常。"></item>
+			<item name="DoseOverflowRate" access="read/write" datatype="uint16" initialValue="1" description="每个点的MU超出该百分比时位置联锁"></item>
+			<item name="SpotX" access="read/write" datatype="double array" initialValue="" description="X位置"></item> 
+			<item name="SpotY" access="read/write" datatype="double array" initialValue="" description="Y位置"></item> 
+			<item name="SpotDose" access="read/write" datatype="double array" initialValue="" description="点的MU"></item>
+		</folder>		
+		<!--  1号治疗室独立终止系统（ITS） OPCUA变量 -->
+		<folder name="ITS">						
+			<item name="ControlCommand" access="read/write" datatype="uint16" initialValue="1" description="1号治疗室ITS控制命令"></item>
+			<item name="ITSData" access="read/write" datatype="string" initialValue="1;4000" description="本次治疗的数据"></item>
+			<item name="PresetMU" access="read/write" datatype="uint" initialValue="0" description="ITS预设计数（IC3的预设计数）"></item>
+			<item name="PresetTime" access="read/write" datatype="uint" initialValue="4000" description="预设治疗时间，单位：秒"></item>
+			<item name="CurrentMU" access="read/write" datatype="uint" initialValue="0" description="当前计数（IC3的当前计数）"></item>
+			<item name="DoseRate" access="read/write" datatype="uint" initialValue="0" description="当前剂量率"></item>
+			<item name="ControllerStatus" access="read/write" datatype="boolean" initialValue="true" description="DDS控制器联锁状态，false为联锁，true为正常。"></item>
+			<item name="ControllerErrorInfo" access="read/write" datatype="string" initialValue="" description="DDS控制器联锁详细信息"></item> 	
+			<item name="ClearControllerError" access="read/write" datatype="boolean" initialValue="false" description="清除DDS控制器联锁，true为清除，false为正常。"></item>
+			<item name="Status" access="read/write" datatype="boolean" initialValue="true" description="DDS系统联锁状态，false为联锁，true为正常。"></item>
+			<item name="ErrorInfo" access="read/write" datatype="string" initialValue="" description="DDS系统联锁信息码"></item> 	
+			<item name="ClearError" access="read/write" datatype="boolean" initialValue="false" description="清除DDS系统联锁，true为清除，false为正常。"></item>
+			<item name="Heartbeat" access="read/write" datatype="uint" initialValue="1" description="DDS心跳信号"></item>			
+		</folder>
+		<folder name="Spot">
+			<item name="M_Control" access="read/write" datatype="uint16" initialValue="0" description=""></item>
+			<item name="N_Control" access="read/write" datatype="uint16" initialValue="0" description=""></item>
+			<item name="ID" access="read/write" datatype="uint16" initialValue="0" description=""></item>		
+			<item name="Energy" access="read/write" datatype="double" initialValue="0" description=""></item>
+			<item name="EnergyRange" access="read/write" datatype="double" initialValue="0" description=""></item>
+			<item name="Count" access="read/write" datatype="uint16" initialValue="0" description=""></item>			
+			<item name="ADataX" access="read/write" datatype="double array" initialValue="" description=""></item> 
+			<item name="ADataY" access="read/write" datatype="double array" initialValue="" description=""></item> 
+			<item name="DataDoseCount" access="read/write" datatype="double array" initialValue="" description=""></item>			
+			<item name="BDataX" access="read/write" datatype="double array" initialValue="" description=""></item> 
+			<item name="BDataY" access="read/write" datatype="double array" initialValue="" description=""></item> 
+			<item name="MDataX" access="read/write" datatype="double array" initialValue="" description=""></item> 
+			<item name="MDataY" access="read/write" datatype="double array" initialValue="" description=""></item> 
+			<item name="MDataDoseCount" access="read/write" datatype="double array" initialValue="" description=""></item>			
+			<item name="NDataX" access="read/write" datatype="double array" initialValue="" description=""></item> 
+			<item name="NDataY" access="read/write" datatype="double array" initialValue="" description=""></item> 
+			<item name="NDataDoseCount" access="read/write" datatype="double array" initialValue="" description=""></item>
+			<item name="XPosRange" access="read/write" datatype="double" initialValue="" description=""></item> 
+			<item name="YPosRange" access="read/write" datatype="double" initialValue="" description=""></item> 
+			<item name="XWidthRange" access="read/write" datatype="double" initialValue="" description=""></item> 
+			<item name="YWidthRange" access="read/write" datatype="double" initialValue="" description=""></item> 
+			<item name="SpotWidth" access="read/write" datatype="double" initialValue="" description=""></item> 
+			<item name="M_ICAlarmAcknowledge" access="read/write" datatype="uint16" initialValue="0" description=""></item>
+			<item name="N_ICAlarmAcknowledge" access="read/write" datatype="uint16" initialValue="0" description=""></item>
+			<item name="PosInterlokPercent" access="read/write" datatype="string" initialValue="" description="束诊位置连锁所需要的阈值"></item> 
+		</folder>
+		<folder name="IGPS">
+			<folder name="CBCT">
+				<item name="TcsCommand" access="read/write" datatype="string" initialValue="" description="由TCS填充节点内容，IGPS读取系欸但内容"></item>
+				<item name="IgpsCommand" access="read/write" datatype="string" initialValue="" description="由IGPS填充节点内容，TCS读取系欸但内容"></item>
+				<item name="Heartbeat" access="read/write" datatype="uint" initialValue="0" description="IGPS心跳信号"></item>
+			</folder>
+			<folder name="DR">
+				<item name="TcsCommand" access="read/write" datatype="string" initialValue="" description="由TCS填充节点内容，IGPS读取系欸但内容"></item>
+				<item name="IgpsCommand" access="read/write" datatype="string" initialValue="" description="由IGPS填充节点内容，TCS读取系欸但内容"></item>
+				<item name="Heartbeat" access="read/write" datatype="uint" initialValue="0" description="IGPS心跳信号"></item>
+			</folder>
+		</folder>
+	</folder>
+	<folder name="R2">	
+		<!--  2号治疗室治疗控制面板（TCP） OPCUA变量 -->
+		<folder name="TCP">			
+			<item name="SetNozzleID" access="read/write" datatype="string" initialValue="" description="设置2号治疗室TCP治疗头编号"></item>
+			<item name="SetButtonStatus" access="read/write" datatype="uint16" initialValue="0" description="设置2号治疗室TCP按钮状态"></item>
+			<item name="GetButtonStatus" access="read/write" datatype="uint16" initialValue="0" description="获取2号治疗室TCP按钮状态"></item>
+			<item name="SetIC3PresetValue" access="read/write" datatype="uint" initialValue="0" description="设置2号治疗室TCP IC3的预设计数"></item>
+			<item name="SetIC3CurrentValue" access="read/write" datatype="uint" initialValue="0" description="设置2号治疗室TCP IC3的当前计数"></item>
+			<item name="Status" access="read/write" datatype="boolean" initialValue="true" description="2号治疗室TCP联锁状态，false为联锁，true为正常。"></item>
+			<item name="ErrorInfo" access="read/write" datatype="string" initialValue="" description="2号治疗室TCP联锁信息码"></item> 	
+			<item name="ClearError" access="read/write" datatype="boolean" initialValue="false" description="清除2号治疗室TCP联锁，true为清除，false为正常。"></item>
+			<item name="Heartbeat" access="read/write" datatype="uint" initialValue="1" description="2号治疗室TCP心跳信号"></item>		
+			<item name="GetTCPCmd" access="read/write" datatype="uint16" initialValue="1" description="获取TCP命令"></item>	
+			<item name="SetTCPCmd" access="read/write" datatype="uint16" initialValue="1" description="设置TCP命令"></item>	
+			<item name="ButtonStatus" access="read/write" datatype="uint16" initialValue="0" description="TCP状态"></item>	
+		</folder>
+		<!--  2号治疗室治疗室内需要的数据 -->
+		<folder name="ROOM">			
+			<item name="PatientInfo" access="read/write" datatype="string" initialValue="" description="加载的患者信息"></item>
+			<item name="ciGPSInfo" access="read/write" datatype="string" initialValue="" description="图像配准的信息，每次TCS加载患者后将此变量值空"></item>
+			<item name="TargetCouchInfo" access="read/write" datatype="string" initialValue="" description="目标治疗床的位置信息"></item>
+			<item name="BarcodeInfo" access="read/write" datatype="string" initialValue="" description="扫描枪扫描获得的条码"></item>	
+			<item name="BeamInfo" access="read/write" datatype="string" initialValue="" description="射野信息"></item>
+			<item name="MLCDataInfo" access="read/write" datatype="string" initialValue="" description="光栅构型数据(103个值，逗号分割)"></item>
+			<item name="PatientSupportAngle" access="read/write" datatype="double" initialValue="" description="射野入射角，床角"></item>	
+			<item name="TreatProgress" access="read/write" datatype="string" initialValue="" description="治疗大厅进度"></item>			
+		</folder>
+		<folder name="IGPS">
+			<folder name="CBCT">
+				<item name="TcsCommand" access="read/write" datatype="string" initialValue="" description="由TCS填充节点内容，IGPS读取系欸但内容"></item>
+				<item name="IgpsCommand" access="read/write" datatype="string" initialValue="" description="由IGPS填充节点内容，TCS读取系欸但内容"></item>
+				<item name="Heartbeat" access="read/write" datatype="uint" initialValue="0" description="IGPS心跳信号"></item>
+			</folder>
+			<folder name="DR">
+				<item name="TcsCommand" access="read/write" datatype="string" initialValue="" description="由TCS填充节点内容，IGPS读取系欸但内容"></item>
+				<item name="IgpsCommand" access="read/write" datatype="string" initialValue="" description="由IGPS填充节点内容，TCS读取系欸但内容"></item>
+				<item name="Heartbeat" access="read/write" datatype="uint" initialValue="0" description="IGPS心跳信号"></item>
+			</folder>
+		</folder>
+	</folder>
+	<!--  2号治疗室水平治疗头51线 -->
+	<folder name="R2H">
+		<!--  2号治疗室光栅MLC OPCUA变量 -->
+		<folder name="MLC">
+			<item name="ControlCommand" access="read/write" datatype="uint16" initialValue="" description="TCS控制MLC的命令"></item>
+			<item name="MLCData" access="read/write" datatype="string" initialValue="" description="TCS需要MLC运动到的叶片、铜门、旋转角度的目标值。格式（A边1,A边2,....;B边1，B边2...;铜门A，铜门B;旋转角度）"></item>
+			<item name="MLCData_acq" access="read/write" datatype="string" initialValue="0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,-19.3512,-22.7595,-22.7595,-22.7595,-22.475,-25.4681,-27.3571,-28.1236,-28.9828,-28.9828,-28.9828,-28.1236,-26.5952,-24.9709,-22.375,-18.4412,-12.9306,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0;0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,-3.57766,4.97369,21.4375,25.4737,28.381,29.9596,29.9596,29.4681,27.9828,27.9828,27.9828,27.1236,26.1007,23.9783,21.375,17.8332,11.9306,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0;0,0;0" description="MLC当前叶片、铜门、旋转角度的反馈值。格式（A边1,A边2,....;B边1，B边2...;铜门A，铜门B;旋转角度）"></item>			
+			<item name="Status" access="read/write" datatype="boolean" initialValue="true" description="MLC联锁状态，false为联锁，true为正常。"></item>			
+			<item name="ErrorInfo" access="read/write" datatype="string" initialValue="" description="MLC错误信息"></item> 	
+			<item name="ClearError" access="read/write" datatype="boolean" initialValue="false" description="TCS清除MLC的错误"></item>
+			<item name="Heartbeat" access="read/write" datatype="uint" initialValue="1" description="MLC心跳信号"></item>
+		</folder>
+		<!--  2号治疗室水平治疗头联锁系统OPCUA变量 -->
+		<folder name="MI">
+			<folder name="CIRCLE">
+				<item name="Config" access="read/write" datatype="boolean" initialValue="false" description="配置52线联锁，false开始配置，true开始监测。"></item>
+				<item name="logic" access="read/write" datatype="boolean array" initialValue="" description="配置52线联锁的逻辑性（Server本地配置文件读取）"></item> 
+				<item name="mask" access="read/write" datatype="boolean array" initialValue="" description="配置52线联锁的有效性（Server本地配置文件读取）"></item> 
+				<item name="CIRCLEStatus" access="read/write" datatype="boolean array" initialValue="" description="52线联锁的状态"></item> 
+				<item name="HWStatus" access="read/write" datatype="boolean" initialValue="true" description="52线硬件联锁，false为联锁，true为正常。"></item>
+				<item name="HWErrorInfo" access="read/write" datatype="string" initialValue="" description="52线硬件联锁信息码"></item> 
+				<item name="SWStatus" access="read/write" datatype="boolean" initialValue="true" description="52线软件联锁，false为联锁，true为正常。"></item>
+				<item name="SWErrorInfo" access="read/write" datatype="string" initialValue="" description="52线软件联锁信息码"></item> 	
+				<item name="DisableHWError" access="read/write" datatype="boolean" initialValue="false" description="屏蔽52线硬件联锁，true为屏蔽，false为正常。"></item>
+				<item name="DisableSWError" access="read/write" datatype="boolean" initialValue="false" description="屏蔽52线软件联锁，true为屏蔽，false为正常。"></item>
+				<item name="ClearHWError" access="read/write" datatype="boolean" initialValue="false" description="清除52线硬件联锁，true为清除，false为正常。"></item>
+				<item name="ClearSWError" access="read/write" datatype="boolean" initialValue="false" description="清除52线软件联锁，true为清除，false为正常。"></item>
+				<item name="Heartbeat" access="read/write" datatype="uint" initialValue="1" description="52线联锁系统心跳信号，由cRIO程序更新此值"></item>
+			</folder>
+		</folder>		
+		<!--  2号治疗室水平治疗头束流调制系统 OPCUA变量 -->
+		<folder name="BMS">
+			<!--  2号治疗室水平治疗头脊形过滤器（RF） OPCUA变量 -->
+			<folder name="RF">
+				<item name="Position" access="read/write" datatype="string" initialValue="{'Id':'MRF4'}" description="2号治疗室水平治疗头RF当前位置"></item>
+				<item name="TargetPosition" access="read/write" datatype="string" initialValue="" description="2号治疗室水平治疗头RF目标位置"></item>
+				<item name="MoveStatus" access="read/write" datatype="boolean" initialValue="false" description="2号治疗室水平治疗头RF运动状态，true为运动中，false为运动停止"></item>
+				<item name="MoveCommand" access="read/write" datatype="uint16" initialValue="0" description="....."></item>
+				<item name="MoveComplete" access="read/write" datatype="boolean" initialValue="false" description="2号治疗室水平治疗头RF运动完成状态，true为运动中，false为运动完成"></item>
+				<item name="Stop" access="read/write" datatype="boolean" initialValue="false" description="2号治疗室水平治疗头RF运动停止，true为运动停止，false为正常运动"></item>
+				<item name="Status" access="read/write" datatype="boolean" initialValue="true" description="2号治疗室水平治疗头RF联锁状态，false为联锁，true为正常。"></item>
+				<item name="ErrorInfo" access="read/write" datatype="string" initialValue="" description="2号治疗室水平治疗头RF联锁信息码"></item> 	
+				<item name="ClearError" access="read/write" datatype="boolean" initialValue="false" description="清除2号治疗室水平治疗头RF联锁，true为清除，false为正常。"></item>
+				<item name="Heartbeat" access="read/write" datatype="uint" initialValue="1" description="2号治疗室水平治疗头RF心跳信号"></item>
+			</folder>
+			<!--  2号治疗室水平治疗头射程移位器（RS） OPCUA变量 -->
+			<folder name="RS">
+				<item name="Position" access="read/write" datatype="string" initialValue="{'Thickness':50}" description="2号治疗室水平治疗头RS当前位置，单位：mm"></item>
+				<item name="TargetPosition" access="read/write" datatype="string" initialValue="" description="2号治疗室水平治疗头RS目标位置，单位：mm"></item>
+				<item name="MoveStatus" access="read/write" datatype="boolean" initialValue="false" description="2号治疗室水平治疗头RS运动状态，true为运动中，false为运动停止"></item>
+				<item name="MoveCommand" access="read/write" datatype="uint16" initialValue="0" description="....."></item>
+				<item name="MoveComplete" access="read/write" datatype="boolean" initialValue="false" description="2号治疗室水平治疗头RS运动完成状态，true为运动中，false为运动完成"></item>
+				<item name="Stop" access="read/write" datatype="boolean" initialValue="false" description="2号治疗室水平治疗头RS运动停止，true为运动停止，false为正常运动"></item>
+				<item name="Status" access="read/write" datatype="boolean" initialValue="true" description="2号治疗室水平治疗头RS联锁状态，false为联锁，true为正常。"></item>
+				<item name="ErrorInfo" access="read/write" datatype="string" initialValue="" description="2号治疗室水平治疗头RS联锁信息码"></item> 	
+				<item name="ClearError" access="read/write" datatype="boolean" initialValue="false" description="清除2号治疗室水平治疗头RS联锁，true为清除，false为正常。"></item>
+				<item name="Heartbeat" access="read/write" datatype="uint" initialValue="1" description="2号治疗室水平治疗头RS心跳信号"></item>
+			</folder>
+			<!--  2号治疗室水平治疗头补偿器（Compensator） OPCUA变量 -->
+			<folder name="Compensator">
+				<item name="Position" access="read/write" datatype="string" initialValue="" description="补偿器是否插入和补偿器编码"></item>
+			</folder>
+			
+		</folder>		
+		<!--  2号治疗室水平治疗头剂量配送系统（DDS） OPCUA变量 -->
+		<folder name="DDS">						
+			<item name="ControlCommand" access="read/write" datatype="uint16" initialValue="1" description="2号治疗室水平治疗头DDS控制命令"></item>
+			<item name="DDSData" access="read/write" datatype="string" initialValue="" description="本次治疗的数据，包括DDS数据和电源数据"></item>
+			<item name="IC1PresetMU" access="read/write" datatype="uint" initialValue="0" description="IC1预设计数"></item>
+			<item name="IC2PresetMU" access="read/write" datatype="uint" initialValue="0" description="IC2预设计数"></item>
+			<item name="LayerCountPreset" access="read/write" datatype="uint" initialValue="0" description="本射野的层数（2D为一层，2DLS有多层）"></item>
+			<item name="PresetTime" access="read/write" datatype="uint" initialValue="4000" description="预设治疗时间，单位：秒"></item>
+			<item name="LayerCountFinished" access="read/write" datatype="uint" initialValue="0" description="已完成的层数"></item>
+			<item name="CurrentLayer" access="read/write" datatype="uint" initialValue="0" description="当前层"></item>
+			<item name="CurrentIC1MU" access="read/write" datatype="uint" initialValue="0" description="IC1的当前计数"></item>
+			<item name="CurrentIC2MU" access="read/write" datatype="uint" initialValue="0" description="IC2的当前计数"></item>
+			<item name="LayerEnergy" access="read/write" datatype="double" initialValue="0" description="当前层所需能量"></item>
+			<item name="PowerXMode" access="read/write" datatype="string" initialValue="" description="X电源运行模式"></item>
+			<item name="PowerXValue" access="read/write" datatype="double" initialValue="0" description="当前X电源电流值（A）"></item>
+			<item name="PowerXStatus" access="read/write" datatype="string" initialValue="" description="X电源状态"></item>
+			<item name="PowerXErrorInfo" access="read/write" datatype="string" initialValue="" description="X电源错误信息"></item>
+			<item name="PowerYMode" access="read/write" datatype="string" initialValue="" description="Y电源运行模式"></item>
+			<item name="PowerYValue" access="read/write" datatype="double" initialValue="0" description="当前Y电源电流值（A）"></item>
+			<item name="PowerYStatus" access="read/write" datatype="string" initialValue="" description="Y电源状态"></item>
+			<item name="PowerYErrorInfo" access="read/write" datatype="string" initialValue="" description="Y电源错误信息"></item>
+			<item name="SetPowerCommand" access="read/write" datatype="uint16" initialValue="0" description="电源控制命令（开机、关机、复位、归零）"></item>
+			<item name="CurrentCommand" access="read/write" datatype="uint16" initialValue="0" description="2号治疗室水平治疗头DDS当前指令"></item>
+			<item name="EnablePositionInterlock" access="read/write" datatype="boolean" initialValue="false" description="启用位置联锁，true为启用，false为禁用（治疗模式下设置无效）"></item>
+			<item name="ControllerStatus" access="read/write" datatype="boolean" initialValue="false" description="DDS控制器联锁状态，false为联锁，true为正常。"></item>
+			<item name="ControllerErrorInfo" access="read/write" datatype="string" initialValue="" description="DDS控制器联锁详细信息"></item> 	
+			<item name="ClearControllerError" access="read/write" datatype="boolean" initialValue="false" description="清除DDS控制器联锁，true为清除，false为正常。"></item>
+			<item name="Status" access="read/write" datatype="boolean" initialValue="true" description="DDS系统联锁状态，false为联锁，true为正常。"></item>
+			<item name="ErrorInfo" access="read/write" datatype="string" initialValue="" description="DDS系统联锁信息码"></item> 	
+			<item name="SystemInfo" access="read/write" datatype="string" initialValue="" description="DDS系统当前状态码"></item>
+			<item name="ClearError" access="read/write" datatype="boolean" initialValue="false" description="清除DDS系统联锁，true为清除，false为正常。"></item>
+			<item name="ClearPositionInterlock" access="read/write" datatype="boolean" initialValue="false" description="清除位置联锁，true为清除，false为正常。"></item>
+			<item name="Heartbeat" access="read/write" datatype="uint" initialValue="1" description="DDS心跳信号"></item>
+			<item name="BeamApplyHeartbeat" access="read/write" datatype="uint" initialValue="0" description="DDS申请束流等待时间（s）"></item>
+			<item name="PowerHeartbeat" access="read/write" datatype="uint" initialValue="1" description="电源心跳信号"></item>	
+		</folder>		
+		<!--  2号治疗室水平治疗头独立终止系统（ITS） OPCUA变量 -->
+		<folder name="ITS">						
+			<item name="ControlCommand" access="read/write" datatype="uint16" initialValue="1" description="2号治疗室水平治疗头ITS控制命令"></item>
+			<item name="ITSData" access="read/write" datatype="string" initialValue="1;4000" description="本次治疗的数据"></item>
+			<item name="PresetMU" access="read/write" datatype="uint" initialValue="0" description="ITS预设计数（IC3的预设计数）"></item>
+			<item name="PresetTime" access="read/write" datatype="uint" initialValue="4000" description="预设治疗时间，单位：秒"></item>
+			<item name="CurrentMU" access="read/write" datatype="uint" initialValue="0" description="当前计数（IC3的当前计数）"></item>
+			<item name="DoseRate" access="read/write" datatype="uint" initialValue="0" description="当前剂量率"></item>
+			<item name="StopMonitor" access="read/write" datatype="uint16" initialValue="" description="停止监测"></item>
+			<item name="ControllerStatus" access="read/write" datatype="boolean" initialValue="true" description="ITS控制器联锁状态，false为联锁，true为正常。"></item>
+			<item name="ControllerErrorInfo" access="read/write" datatype="string" initialValue="" description="ITS控制器联锁详细信息"></item> 	
+			<item name="ClearControllerError" access="read/write" datatype="boolean" initialValue="false" description="清除ITS控制器联锁，true为清除，false为正常。"></item>
+			<item name="Status" access="read/write" datatype="boolean" initialValue="true" description="ITS系统联锁状态，false为联锁，true为正常。"></item>
+			<item name="ErrorInfo" access="read/write" datatype="string" initialValue="" description="ITS系统联锁信息码"></item> 	
+			<item name="ClearError" access="read/write" datatype="boolean" initialValue="false" description="清除ITS系统联锁，true为清除，false为正常。"></item>
+			<item name="Heartbeat" access="read/write" datatype="uint" initialValue="1" description="ITS心跳信号"></item>			
+		</folder>
+	</folder>
+	<folder name="R2V">
+		<!--  2号治疗室光栅MLC OPCUA变量 -->
+		<folder name="MLC">
+			<item name="ControlCommand" access="read/write" datatype="uint16" initialValue="" description="TCS控制MLC的命令"></item>
+			<item name="MLCData" access="read/write" datatype="string" initialValue="" description="TCS需要MLC运动到的叶片、铜门、旋转角度的目标值。格式（A边1,A边2,....;B边1，B边2...;铜门A，铜门B;旋转角度）"></item>
+			<item name="MLCData_acq" access="read/write" datatype="string" initialValue="0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,-19.3512,-22.7595,-22.7595,-22.7595,-22.475,-25.4681,-27.3571,-28.1236,-28.9828,-28.9828,-28.9828,-28.1236,-26.5952,-24.9709,-22.375,-18.4412,-12.9306,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0;0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,-3.57766,4.97369,21.4375,25.4737,28.381,29.9596,29.9596,29.4681,27.9828,27.9828,27.9828,27.1236,26.1007,23.9783,21.375,17.8332,11.9306,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0;0,0;25" description="MLC当前叶片、铜门、旋转角度的反馈值。格式（A边1,A边2,....;B边1，B边2...;铜门A，铜门B;旋转角度）"></item>			
+			<item name="Status" access="read/write" datatype="boolean" initialValue="true" description="MLC联锁状态，false为联锁，true为正常。"></item>			
+			<item name="ErrorInfo" access="read/write" datatype="string" initialValue="" description="MLC错误信息"></item> 	
+			<item name="ClearError" access="read/write" datatype="boolean" initialValue="false" description="TCS清除MLC的错误"></item>
+			<item name="Heartbeat" access="read/write" datatype="uint" initialValue="1" description="MLC心跳信号"></item>
+		</folder>
+		<!--  2号治疗室垂直治疗头联锁系统OPCUA变量 -->
+		<folder name="MI">
+			<folder name="CIRCLE">
+				<item name="Config" access="read/write" datatype="boolean" initialValue="false" description="配置52线联锁，false开始配置，true开始监测。"></item>
+				<item name="logic" access="read/write" datatype="boolean array" initialValue="" description="配置52线联锁的逻辑性（Server本地配置文件读取）"></item> 
+				<item name="mask" access="read/write" datatype="boolean array" initialValue="" description="配置52线联锁的有效性（Server本地配置文件读取）"></item> 
+				<item name="CIRCLEStatus" access="read/write" datatype="boolean array" initialValue="" description="52线联锁的状态"></item> 
+				<item name="HWStatus" access="read/write" datatype="boolean" initialValue="true" description="52线硬件联锁，false为联锁，true为正常。"></item>
+				<item name="HWErrorInfo" access="read/write" datatype="string" initialValue="" description="52线硬件联锁信息码"></item> 
+				<item name="SWStatus" access="read/write" datatype="boolean" initialValue="true" description="52线软件联锁，false为联锁，true为正常。"></item>
+				<item name="SWErrorInfo" access="read/write" datatype="string" initialValue="" description="52线软件联锁信息码"></item> 	
+				<item name="DisableHWError" access="read/write" datatype="boolean" initialValue="false" description="屏蔽52线硬件联锁，true为屏蔽，false为正常。"></item>
+				<item name="DisableSWError" access="read/write" datatype="boolean" initialValue="false" description="屏蔽52线软件联锁，true为屏蔽，false为正常。"></item>
+				<item name="ClearHWError" access="read/write" datatype="boolean" initialValue="false" description="清除52线硬件联锁，true为清除，false为正常。"></item>
+				<item name="ClearSWError" access="read/write" datatype="boolean" initialValue="false" description="清除52线软件联锁，true为清除，false为正常。"></item>
+				<item name="Heartbeat" access="read/write" datatype="uint" initialValue="1" description="52线联锁系统心跳信号，由cRIO程序更新此值"></item>
+			</folder>
+		</folder>		
+		<!--  2号治疗室垂直治疗头束流调制系统 OPCUA变量 -->
+		<folder name="BMS">
+			<!--  2号治疗室垂直治疗头初级准直器（PC） OPCUA变量 -->
+			<folder name="PC">
+				<item name="Position" access="read/write" datatype="string" initialValue="190,190" description="2号治疗室垂直治疗头PC当前位置（值格式：X,Y）"></item>
+				<item name="TargetPosition" access="read/write" datatype="string" initialValue="" description="2号治疗室垂直治疗头PC目标位置（值格式：X,Y）"></item>
+				<item name="MoveStatus" access="read/write" datatype="boolean" initialValue="false" description="2号治疗室垂直治疗头PC运动状态，true为运动中，false为运动停止"></item>
+				<item name="MoveCommand" access="read/write" datatype="uint16" initialValue="0" description="....."></item>
+				<item name="MoveComplete" access="read/write" datatype="boolean" initialValue="false" description="2号治疗室垂直治疗头PC运动完成状态，true为运动中，false为运动完成"></item>
+				<item name="Stop" access="read/write" datatype="boolean" initialValue="false" description="2号治疗室垂直治疗头PC运动停止，true为运动停止，false为正常运动"></item>
+				<item name="Status" access="read/write" datatype="boolean" initialValue="true" description="2号治疗室垂直治疗头PC联锁状态，false为联锁，true为正常。"></item>
+				<item name="ErrorInfo" access="read/write" datatype="string" initialValue="" description="2号治疗室垂直治疗头PC联锁信息码"></item> 	
+				<item name="ClearError" access="read/write" datatype="boolean" initialValue="false" description="清除2号治疗室垂直治疗头PC联锁，true为清除，false为正常。"></item>
+				<item name="Heartbeat" access="read/write" datatype="uint" initialValue="1" description="2号治疗室垂直治疗头PC心跳信号"></item>
+			</folder>
+			<!--  2号治疗室垂直治疗头脊形过滤器（RF） OPCUA变量 -->
+			<folder name="RF">
+				<item name="Position" access="read/write" datatype="string" initialValue="{'Id':'RF60','Value':'FIXED'}" description="2号治疗室垂直治疗头RF当前位置"></item>
+				<item name="TargetPosition" access="read/write" datatype="string" initialValue="" description="2号治疗室垂直治疗头RF目标位置"></item>
+				<item name="MoveStatus" access="read/write" datatype="boolean" initialValue="false" description="2号治疗室垂直治疗头RF运动状态，true为运动中，false为运动停止"></item>
+				<item name="MoveCommand" access="read/write" datatype="uint16" initialValue="0" description="....."></item>
+				<item name="MoveComplete" access="read/write" datatype="boolean" initialValue="false" description="2号治疗室垂直治疗头RF运动完成状态，true为运动中，false为运动完成"></item>
+				<item name="Stop" access="read/write" datatype="boolean" initialValue="false" description="2号治疗室垂直治疗头RF运动停止，true为运动停止，false为正常运动"></item>
+				<item name="Status" access="read/write" datatype="boolean" initialValue="true" description="2号治疗室垂直治疗头RF联锁状态，false为联锁，true为正常。"></item>
+				<item name="ErrorInfo" access="read/write" datatype="string" initialValue="" description="2号治疗室垂直治疗头RF联锁信息码"></item> 	
+				<item name="ClearError" access="read/write" datatype="boolean" initialValue="false" description="清除2号治疗室垂直治疗头RF联锁，true为清除，false为正常。"></item>
+				<item name="Heartbeat" access="read/write" datatype="uint" initialValue="1" description="2号治疗室垂直治疗头RF心跳信号"></item>
+			</folder>
+			<!--  2号治疗室垂直治疗头射程移位器（RS） OPCUA变量 -->
+			<folder name="RS">
+				<item name="Position" access="read/write" datatype="string" initialValue="{'Thickness':50}" description="2号治疗室垂直治疗头RS当前位置，单位：mm"></item>
+				<item name="TargetPosition" access="read/write" datatype="string" initialValue="" description="2号治疗室垂直治疗头RS目标位置，单位：mm"></item>
+				<item name="MoveStatus" access="read/write" datatype="boolean" initialValue="false" description="2号治疗室垂直治疗头RS运动状态，true为运动中，false为运动停止"></item>
+				<item name="MoveCommand" access="read/write" datatype="uint16" initialValue="0" description="....."></item>
+				<item name="MoveComplete" access="read/write" datatype="boolean" initialValue="false" description="2号治疗室垂直治疗头RS运动完成状态，true为运动中，false为运动完成"></item>
+				<item name="Stop" access="read/write" datatype="boolean" initialValue="false" description="2号治疗室垂直治疗头RS运动停止，true为运动停止，false为正常运动"></item>
+				<item name="Status" access="read/write" datatype="boolean" initialValue="true" description="2号治疗室垂直治疗头RS联锁状态，false为联锁，true为正常。"></item>
+				<item name="ErrorInfo" access="read/write" datatype="string" initialValue="" description="2号治疗室垂直治疗头RS联锁信息码"></item> 	
+				<item name="ClearError" access="read/write" datatype="boolean" initialValue="false" description="清除2号治疗室垂直治疗头RS联锁，true为清除，false为正常。"></item>
+				<item name="Heartbeat" access="read/write" datatype="uint" initialValue="1" description="2号治疗室垂直治疗头RS心跳信号"></item>
+			</folder>
+			<!--  2号治疗室垂直治疗头补偿器（Compensator） OPCUA变量 -->
+			<folder name="Compensator">
+				<item name="Position" access="read/write" datatype="string" initialValue="" description="补偿器是否插入和补偿器编码"></item>
+			</folder>
+		</folder>		
+		<!--  2号治疗室垂直治疗头剂量配送系统（DDS） OPCUA变量 -->
+		<folder name="DDS">						
+			<item name="ControlCommand" access="read/write" datatype="uint16" initialValue="1" description="2号治疗室垂直治疗头DDS控制命令"></item>
+			<item name="DDSData" access="read/write" datatype="string" initialValue="" description="本次治疗的数据，包括DDS数据和电源数据"></item>
+			<item name="IC1PresetMU" access="read/write" datatype="uint" initialValue="0" description="IC1预设计数"></item>
+			<item name="IC2PresetMU" access="read/write" datatype="uint" initialValue="0" description="IC2预设计数"></item>
+			<item name="LayerCountPreset" access="read/write" datatype="uint" initialValue="0" description="本射野的层数（2D为一层，2DLS有多层）"></item>
+			<item name="PresetTime" access="read/write" datatype="uint" initialValue="4000" description="预设治疗时间，单位：秒"></item>
+			<item name="LayerCountFinished" access="read/write" datatype="uint" initialValue="0" description="已完成的层数"></item>
+			<item name="CurrentLayer" access="read/write" datatype="uint" initialValue="0" description="当前层"></item>
+			<item name="CurrentIC1MU" access="read/write" datatype="uint" initialValue="0" description="IC1的当前计数"></item>
+			<item name="CurrentIC2MU" access="read/write" datatype="uint" initialValue="0" description="IC2的当前计数"></item>
+			<item name="LayerEnergy" access="read/write" datatype="double" initialValue="0" description="当前层所需能量"></item>
+			<item name="PowerXMode" access="read/write" datatype="string" initialValue="" description="X电源运行模式"></item>
+			<item name="PowerXValue" access="read/write" datatype="double" initialValue="0" description="当前X电源电流值（A）"></item>
+			<item name="PowerXStatus" access="read/write" datatype="string" initialValue="" description="X电源状态"></item>
+			<item name="PowerXErrorInfo" access="read/write" datatype="string" initialValue="" description="X电源错误信息"></item>
+			<item name="PowerYMode" access="read/write" datatype="string" initialValue="" description="Y电源运行模式"></item>
+			<item name="PowerYValue" access="read/write" datatype="double" initialValue="0" description="当前Y电源电流值（A）"></item>
+			<item name="PowerYStatus" access="read/write" datatype="string" initialValue="" description="Y电源状态"></item>
+			<item name="PowerYErrorInfo" access="read/write" datatype="string" initialValue="" description="Y电源错误信息"></item>
+			<item name="SetPowerCommand" access="read/write" datatype="uint16" initialValue="0" description="电源控制命令（开机、关机、复位、归零）"></item>
+			<item name="CurrentCommand" access="read/write" datatype="uint16" initialValue="0" description="2号治疗室垂直治疗头DDS当前指令"></item>
+			<item name="EnablePositionInterlock" access="read/write" datatype="boolean" initialValue="false" description="启用位置联锁，true为启用，false为禁用（治疗模式下设置无效）"></item>
+			<item name="ControllerStatus" access="read/write" datatype="boolean" initialValue="false" description="DDS控制器联锁状态，false为联锁，true为正常。"></item>
+			<item name="ControllerErrorInfo" access="read/write" datatype="string" initialValue="" description="DDS控制器联锁详细信息"></item> 	
+			<item name="ClearControllerError" access="read/write" datatype="boolean" initialValue="false" description="清除DDS控制器联锁，true为清除，false为正常。"></item>
+			<item name="Status" access="read/write" datatype="boolean" initialValue="true" description="DDS系统联锁状态，false为联锁，true为正常。"></item>
+			<item name="ErrorInfo" access="read/write" datatype="string" initialValue="" description="DDS系统联锁信息码"></item> 	
+			<item name="SystemInfo" access="read/write" datatype="string" initialValue="" description="DDS系统当前状态码"></item>
+			<item name="ClearError" access="read/write" datatype="boolean" initialValue="false" description="清除DDS系统联锁，true为清除，false为正常。"></item>
+			<item name="ClearPositionInterlock" access="read/write" datatype="boolean" initialValue="false" description="清除位置联锁，true为清除，false为正常。"></item>
+			<item name="Heartbeat" access="read/write" datatype="uint" initialValue="1" description="DDS心跳信号"></item>
+			<item name="BeamApplyHeartbeat" access="read/write" datatype="uint" initialValue="0" description="DDS申请束流等待时间（s）"></item>
+			<item name="PowerHeartbeat" access="read/write" datatype="uint" initialValue="1" description="电源心跳信号"></item>	
+		</folder>		
+		<!--  2号治疗室垂直治疗头独立终止系统（ITS） OPCUA变量 -->
+		<folder name="ITS">						
+			<item name="ControlCommand" access="read/write" datatype="uint16" initialValue="1" description="2号治疗室垂直治疗头ITS控制命令"></item>
+			<item name="ITSData" access="read/write" datatype="string" initialValue="1;4000" description="本次治疗的数据"></item>
+			<item name="PresetMU" access="read/write" datatype="uint" initialValue="0" description="ITS预设计数（IC3的预设计数）"></item>
+			<item name="PresetTime" access="read/write" datatype="uint" initialValue="4000" description="预设治疗时间，单位：秒"></item>
+			<item name="CurrentMU" access="read/write" datatype="uint" initialValue="0" description="当前计数（IC3的当前计数）"></item>
+			<item name="DoseRate" access="read/write" datatype="uint" initialValue="0" description="当前剂量率"></item>
+			<item name="StopMonitor" access="read/write" datatype="uint16" initialValue="" description="停止监测"></item>
+			<item name="ControllerStatus" access="read/write" datatype="boolean" initialValue="true" description="ITS控制器联锁状态，false为联锁，true为正常。"></item>
+			<item name="ControllerErrorInfo" access="read/write" datatype="string" initialValue="" description="ITS控制器联锁详细信息"></item> 	
+			<item name="ClearControllerError" access="read/write" datatype="boolean" initialValue="false" description="清除ITS控制器联锁，true为清除，false为正常。"></item>
+			<item name="Status" access="read/write" datatype="boolean" initialValue="true" description="ITS系统联锁状态，false为联锁，true为正常。"></item>
+			<item name="ErrorInfo" access="read/write" datatype="string" initialValue="" description="ITS系统联锁信息码"></item> 	
+			<item name="ClearError" access="read/write" datatype="boolean" initialValue="false" description="清除ITS系统联锁，true为清除，false为正常。"></item>
+			<item name="Heartbeat" access="read/write" datatype="uint" initialValue="1" description="ITS心跳信号"></item>			
+		</folder>
+	</folder>
+	<folder name="R3">
+		<folder name="MI">
+			<folder name="CIRCLE">
+				<item name="Config" access="read/write" datatype="boolean" initialValue="false" description="Ťփ52ϟÁª˸£¬false¿ªʼŤփ£¬true¿ªʼ¼ಢ¡£"></item>
+				<item name="logic" access="read/write" datatype="boolean array" initialValue="" description="Ťփ52ϟÁª˸µĂ߼­Д£¨Server±¾µ؅䖃΄¼þ¶Áȡ£©"></item> 
+				<item name="mask" access="read/write" datatype="boolean array" initialValue="" description="Ťփ52ϟÁª˸µēА§Д£¨Server±¾µ؅䖃΄¼þ¶Áȡ£©"></item> 
+				<item name="CIRCLEStatus" access="read/write" datatype="boolean array" initialValue="" description="52ϟÁª˸µė´̬"></item> 
+				<item name="HWStatus" access="read/write" datatype="boolean" initialValue="true" description="52ϟӲ¼þÁª˸£¬falseΪÁª˸£¬trueΪս³£¡£"></item>
+				<item name="HWErrorInfo" access="read/write" datatype="string" initialValue="" description="52ϟӲ¼þÁª˸ЅϢ«"></item> 
+				<item name="SWStatus" access="read/write" datatype="boolean" initialValue="true" description="52ϟȭ¼þÁª˸£¬falseΪÁª˸£¬trueΪս³£¡£"></item>
+				<item name="SWErrorInfo" access="read/write" datatype="string" initialValue="" description="52ϟȭ¼þÁª˸ЅϢ«"></item> 	
+				<item name="DisableHWError" access="read/write" datatype="boolean" initialValue="false" description="Ɓ±ε2ϟӲ¼þÁª˸£¬trueΪƁ±Σ¬falseΪս³£¡£"></item>
+				<item name="DisableSWError" access="read/write" datatype="boolean" initialValue="false" description="Ɓ±ε2ϟȭ¼þÁª˸£¬trueΪƁ±Σ¬falseΪս³£¡£"></item>
+				<item name="ClearHWError" access="read/write" datatype="boolean" initialValue="false" description="ǥ³ý52ϟӲ¼þÁª˸£¬trueΪǥ³ý£¬falseΪս³£¡£"></item>
+				<item name="ClearSWError" access="read/write" datatype="boolean" initialValue="false" description="ǥ³ý52ϟȭ¼þÁª˸£¬trueΪǥ³ý£¬falseΪս³£¡£"></item>
+				<item name="Heartbeat" access="read/write" datatype="uint" initialValue="1" description="52ϟÁª˸ϵͳЄ̸Ѕºţ¬ӉcRIO³̐򸼐´˖µ"></item>
+			</folder>
+		</folder>				
+		
+		<folder name="BMS">
+			<folder name="RF">
+				<item name="Position" access="read/write" datatype="string" initialValue="" description=""></item>
+				<item name="TargetPosition" access="read/write" datatype="string" initialValue="" description=""></item>
+				<item name="MoveStatus" access="read/write" datatype="boolean" initialValue="false" description=""></item>
+				<item name="MoveCommand" access="read/write" datatype="uint16" initialValue="0" description="....."></item>
+				<item name="MoveComplete" access="read/write" datatype="boolean" initialValue="false" description=""></item>
+				<item name="Stop" access="read/write" datatype="boolean" initialValue="false" description=""></item>
+				<item name="Status" access="read/write" datatype="boolean" initialValue="true" description=""></item>
+				<item name="ErrorInfo" access="read/write" datatype="string" initialValue="" description=""></item> 	
+				<item name="ClearError" access="read/write" datatype="boolean" initialValue="false" description=""></item>
+				<item name="Heartbeat" access="read/write" datatype="uint" initialValue="1" description=""></item>
+			</folder>
+			<folder name="RS">
+				<item name="Position" access="read/write" datatype="string" initialValue="{'Thickness':50}" description="2号治疗室水平治疗头RS当前位置，单位：mm"></item>
+				<item name="TargetPosition" access="read/write" datatype="string" initialValue="" description="2号治疗室水平治疗头RS目标位置，单位：mm"></item>
+				<item name="MoveStatus" access="read/write" datatype="boolean" initialValue="false" description="2号治疗室水平治疗头RS运动状态，true为运动中，false为运动停止"></item>
+				<item name="MoveCommand" access="read/write" datatype="uint16" initialValue="0" description="....."></item>
+				<item name="MoveComplete" access="read/write" datatype="boolean" initialValue="false" description="2号治疗室水平治疗头RS运动完成状态，true为运动中，false为运动完成"></item>
+				<item name="Stop" access="read/write" datatype="boolean" initialValue="false" description="2号治疗室水平治疗头RS运动停止，true为运动停止，false为正常运动"></item>
+				<item name="Status" access="read/write" datatype="boolean" initialValue="true" description="2号治疗室水平治疗头RS联锁状态，false为联锁，true为正常。"></item>
+				<item name="ErrorInfo" access="read/write" datatype="string" initialValue="" description="2号治疗室水平治疗头RS联锁信息码"></item> 	
+				<item name="ClearError" access="read/write" datatype="boolean" initialValue="false" description="清除2号治疗室水平治疗头RS联锁，true为清除，false为正常。"></item>
+				<item name="Heartbeat" access="read/write" datatype="uint" initialValue="1" description="2号治疗室水平治疗头RS心跳信号"></item>
+			</folder>
+		</folder>		
+		
+		<folder name="TCP">	
+			<item name="SetNozzleID" access="read/write" datatype="string" initialValue="" description="设置1号治疗室TCP治疗头编号"></item>
+			<item name="SetButtonStatus" access="read/write" datatype="uint16" initialValue="0" description="设置1号治疗室TCP按钮状态"></item>
+			<item name="GetButtonStatus" access="read/write" datatype="uint16" initialValue="0" description="获取1号治疗室TCP按钮状态"></item>
+			<item name="SetIC3PresetValue" access="read/write" datatype="uint" initialValue="0" description="设置1号治疗室TCP IC3的预设计数"></item>
+			<item name="SetIC3CurrentValue" access="read/write" datatype="uint" initialValue="0" description="设置1号治疗室TCP IC3的当前计数"></item>
+			<item name="Status" access="read/write" datatype="boolean" initialValue="true" description="1号治疗室TCP联锁状态，false为联锁，true为正常。"></item>
+			<item name="ErrorInfo" access="read/write" datatype="string" initialValue="" description="1号治疗室TCP联锁信息码"></item> 	
+			<item name="ClearError" access="read/write" datatype="boolean" initialValue="false" description="清除1号治疗室TCP联锁，true为清除，false为正常。"></item>
+			<item name="Heartbeat" access="read/write" datatype="uint" initialValue="1" description="1号治疗室TCP心跳信号"></item>			
+			<item name="SetTCPCmd" access="read/write" datatype="uint16" initialValue="0" description="ɨփ1ºŖ΁ƊҔCP°´ť״̬"></item>
+			<item name="GetTCPCmd" access="read/write" datatype="uint16" initialValue="0" description="»񈡱ºŖ΁ƊҔCP°´ť״̬"></item>
+			<item name="ITSPresetValue" access="read/write" datatype="uint" initialValue="0" description="ɨփ1ºŖ΁ƊҔCP IC3µĔ¤ɨ¼Ɗý"></item>
+			<item name="ITSCurrentValue" access="read/write" datatype="uint" initialValue="0" description="ɨփ1ºŖ΁ƊҔCP IC3µĵ±ǰ¼Ɗý"></item>
+			<item name="ButtonStatus" access="read/write" datatype="uint16" initialValue="0" description="ɨփ1ºŖ΁ƊҔCP IC3µĵ±ǰ¼Ɗý"></item>					
+		</folder>		
+		
+		<folder name="ROOM">			
+			<item name="PatientInfo" access="read/write" datatype="string" initialValue="" description="¼ӔصĻ¼՟ЅϢ"></item>
+			<item name="ciGPSInfo" access="read/write" datatype="string" initialValue="" description="ͼϱŤ׼µĐŏ¢£¬ÿ´ΔCS¼Ӕػ¼՟º󽫴˱䁿ֵ¿բ"></item>
+			<item name="TargetCouchInfo" access="read/write" datatype="string" initialValue="" description="目标治疗床的位置信息"></item>
+			<item name="BarcodeInfo" access="read/write" datatype="string" initialValue="" description="ɨèǹɨè»񵃵Čõ«"></item>	
+			<item name="BeamInfo" access="read/write" datatype="string" initialValue="" description="ɤҰЅϢ"></item>
+			<item name="MLCDataInfo" access="read/write" datatype="string" initialValue="" description="¹╤¹¹Ѝʽ¾ݨ103¸öֵ£¬¶ººŷָ"></item>
+			<item name="PatientSupportAngle" access="read/write" datatype="double" initialValue="" description="射野入射角，床角"></item>
+			<item name="TreatProgress" access="read/write" datatype="string" initialValue="" description="治疗大厅进度"></item>			
+		</folder>
+		
+		<folder name="DDS">						
+			<item name="ControlCommand" access="read/write" datatype="uint16" initialValue="1" description="3号治疗室DDS控制命令"></item>
+			<item name="BDControl" access="read/write" datatype="uint16" initialValue="1" description="3号治疗室分条控制命令"></item>
+			<item name="DDSData" access="read/write" datatype="string" initialValue="" description="本次治疗的数据"></item>
+			<item name="SpotPresetMU" access="read/write" datatype="uint" initialValue="0" description="点预设计数（IC1的预设计数）"></item>
+			<item name="LayerPresetMU" access="read/write" datatype="uint" initialValue="0" description="层预设计数（IC2的预设计数）"></item>
+			<item name="SpotCountPreset" access="read/write" datatype="uint" initialValue="0" description="本层预设点个数"></item>
+			<item name="SpotCountFinished" access="read/write" datatype="uint" initialValue="0" description="本层已扫描点个数"></item>
+			<item name="CurrentSpotMU" access="read/write" datatype="uint" initialValue="0" description="当前点计数（IC1的当前计数）"></item>
+			<item name="CurrentLayerMU" access="read/write" datatype="uint" initialValue="0" description="当前层计数（IC2的当前计数）"></item>
+			<item name="CurrentLayer" access="read/write" datatype="uint" initialValue="0" description="当前层"></item>
+			<item name="CurrentXPosition" access="read/write" datatype="double" initialValue="0" description="当前点X坐标"></item>
+			<item name="CurrentYPosition" access="read/write" datatype="double" initialValue="0" description="当前点Y坐标"></item>
+			<item name="LayerEnergy" access="read/write" datatype="double" initialValue="0" description="当前层所需能量"></item>
+			<item name="PowerXMode" access="read/write" datatype="string" initialValue="" description="X电源运行模式"></item>
+			<item name="PowerXValue" access="read/write" datatype="double" initialValue="0" description="当前X电源电流值（A）"></item>
+			<item name="PowerXStatus" access="read/write" datatype="string" initialValue="" description="X电源状态"></item>
+			<item name="PowerYMode" access="read/write" datatype="string" initialValue="" description="Y电源运行模式"></item>
+			<item name="PowerYValue" access="read/write" datatype="double" initialValue="0" description="当前Y电源电流值（A）"></item>
+			<item name="PowerYStatus" access="read/write" datatype="string" initialValue="" description="Y电源状态"></item>
+			<item name="SetPowerCommand" access="read/write" datatype="uint16" initialValue="0" description="电源控制命令（开机、关机、复位、归零）"></item>
+			<item name="CurrentCommand" access="read/write" datatype="uint16" initialValue="0" description="1号治疗室DDS当前指令"></item>
+			<item name="EnablePositionInterlock" access="read/write" datatype="boolean" initialValue="false" description="启用位置联锁，true为启用，false为禁用（治疗模式下设置无效）"></item>			
+			<item name="ControllerStatus" access="read/write" datatype="boolean" initialValue="false" description="DDS控制器联锁状态，false为联锁，true为正常。"></item>
+			<item name="ControllerErrorInfo" access="read/write" datatype="string" initialValue="" description="DDS控制器联锁详细信息"></item> 	
+			<item name="ClearControllerError" access="read/write" datatype="boolean" initialValue="false" description="清除DDS控制器联锁，true为清除，false为正常。"></item>
+			<item name="Status" access="read/write" datatype="boolean" initialValue="true" description="DDS系统联锁状态，false为联锁，true为正常。"></item>
+			<item name="ErrorInfo" access="read/write" datatype="string" initialValue="" description="DDS系统联锁信息码"></item> 	
+			<item name="ClearError" access="read/write" datatype="boolean" initialValue="false" description="清除DDS系统联锁，true为清除，false为正常。"></item>
+			<item name="Heartbeat" access="read/write" datatype="uint" initialValue="1" description="DDS心跳信号"></item>
+			<item name="BeamApplyHeartbeat" access="read/write" datatype="uint" initialValue="0" description="DDS申请束流等待时间（s）"></item>
+			<item name="CurrentSpotIndex" access="read/write" datatype="uint" initialValue="0" description="DDS点索引"></item>
+			<item name="SystemInfo" access="read/write" datatype="string" initialValue="" description="DDS系统状态"></item>	
+			<item name="ClearPosInterlock" access="read/write" datatype="boolean" initialValue="false" description="清除DDS weizhi联锁，true为清除，false为正常。"></item>
+			<item name="DoseOverflowRate" access="read/write" datatype="uint16" initialValue="1" description="每个点的MU超出该百分比时位置联锁"></item>
+			<item name="SpotX" access="read/write" datatype="double array" initialValue="" description="X位置"></item> 
+			<item name="SpotY" access="read/write" datatype="double array" initialValue="" description="Y位置"></item> 
+			<item name="SpotDose" access="read/write" datatype="double array" initialValue="" description="点的MU"></item>
+		</folder>		
+		
+		<folder name="ITS">						
+			<item name="ControlCommand" access="read/write" datatype="uint16" initialValue="1" description="1号治疗室ITS控制命令"></item>
+			<item name="ITSData" access="read/write" datatype="string" initialValue="1;4000" description="本次治疗的数据"></item>
+			<item name="PresetMU" access="read/write" datatype="uint" initialValue="0" description="ITS预设计数（IC3的预设计数）"></item>
+			<item name="PresetTime" access="read/write" datatype="uint" initialValue="4000" description="预设治疗时间，单位：秒"></item>
+			<item name="CurrentMU" access="read/write" datatype="uint" initialValue="0" description="当前计数（IC3的当前计数）"></item>
+			<item name="DoseRate" access="read/write" datatype="uint" initialValue="0" description="当前剂量率"></item>
+			<item name="ControllerStatus" access="read/write" datatype="boolean" initialValue="true" description="DDS控制器联锁状态，false为联锁，true为正常。"></item>
+			<item name="ControllerErrorInfo" access="read/write" datatype="string" initialValue="" description="DDS控制器联锁详细信息"></item> 	
+			<item name="ClearControllerError" access="read/write" datatype="boolean" initialValue="false" description="清除DDS控制器联锁，true为清除，false为正常。"></item>
+			<item name="Status" access="read/write" datatype="boolean" initialValue="true" description="DDS系统联锁状态，false为联锁，true为正常。"></item>
+			<item name="ErrorInfo" access="read/write" datatype="string" initialValue="" description="DDS系统联锁信息码"></item> 	
+			<item name="ClearError" access="read/write" datatype="boolean" initialValue="false" description="清除DDS系统联锁，true为清除，false为正常。"></item>
+			<item name="Heartbeat" access="read/write" datatype="uint" initialValue="1" description="DDS心跳信号"></item>			
+			</folder>
+		<folder name="Spot">
+			<item name="M_Control" access="read/write" datatype="uint16" initialValue="0" description=""></item>
+			<item name="N_Control" access="read/write" datatype="uint16" initialValue="0" description=""></item>
+			<item name="ID" access="read/write" datatype="uint16" initialValue="0" description=""></item>		
+			<item name="Energy" access="read/write" datatype="double" initialValue="0" description=""></item>
+			<item name="EnergyRange" access="read/write" datatype="double" initialValue="0" description=""></item>
+			<item name="Count" access="read/write" datatype="uint16" initialValue="0" description=""></item>			
+			<item name="ADataX" access="read/write" datatype="double array" initialValue="" description=""></item> 
+			<item name="ADataY" access="read/write" datatype="double array" initialValue="" description=""></item> 
+			<item name="DataDoseCount" access="read/write" datatype="double array" initialValue="" description=""></item>			
+			<item name="BDataX" access="read/write" datatype="double array" initialValue="" description=""></item> 
+			<item name="BDataY" access="read/write" datatype="double array" initialValue="" description=""></item> 
+			<item name="MDataX" access="read/write" datatype="double array" initialValue="" description=""></item> 
+			<item name="MDataY" access="read/write" datatype="double array" initialValue="" description=""></item> 
+			<item name="MDataDoseCount" access="read/write" datatype="double array" initialValue="" description=""></item>			
+			<item name="NDataX" access="read/write" datatype="double array" initialValue="" description=""></item> 
+			<item name="NDataY" access="read/write" datatype="double array" initialValue="" description=""></item> 
+			<item name="NDataDoseCount" access="read/write" datatype="double array" initialValue="" description=""></item>
+			<item name="XPosRange" access="read/write" datatype="double" initialValue="" description=""></item> 
+			<item name="YPosRange" access="read/write" datatype="double" initialValue="" description=""></item> 
+			<item name="XWidthRange" access="read/write" datatype="double" initialValue="" description=""></item> 
+			<item name="YWidthRange" access="read/write" datatype="double" initialValue="" description=""></item> 
+			<item name="SpotWidth" access="read/write" datatype="double" initialValue="" description=""></item> 
+			<item name="M_ICAlarmAcknowledge" access="read/write" datatype="uint16" initialValue="0" description=""></item>
+			<item name="N_ICAlarmAcknowledge" access="read/write" datatype="uint16" initialValue="0" description=""></item>
+			<item name="PosInterlokPercent" access="read/write" datatype="string" initialValue="" description="束诊位置连锁所需要的阈值"></item> 
+		</folder>
+		<folder name="IGPS">
+			<folder name="CBCT">
+				<item name="TcsCommand" access="read/write" datatype="string" initialValue="" description="由TCS填充节点内容，IGPS读取系欸但内容"></item>
+				<item name="IgpsCommand" access="read/write" datatype="string" initialValue="" description="由IGPS填充节点内容，TCS读取系欸但内容"></item>
+				<item name="Heartbeat" access="read/write" datatype="uint" initialValue="0" description="IGPS心跳信号"></item>
+			</folder>
+			<folder name="DR">
+				<item name="TcsCommand" access="read/write" datatype="string" initialValue="" description="由TCS填充节点内容，IGPS读取系欸但内容"></item>
+				<item name="IgpsCommand" access="read/write" datatype="string" initialValue="" description="由IGPS填充节点内容，TCS读取系欸但内容"></item>
+				<item name="Heartbeat" access="read/write" datatype="uint" initialValue="0" description="IGPS心跳信号"></item>
+			</folder>
+		</folder>
+	</folder>
+	<folder name="R4">
+		
+		<folder name="MI">
+			<folder name="CIRCLE">
+				<item name="Config" access="read/write" datatype="boolean" initialValue="false" description="配置52线联锁，false开始配置，true开始监测。"></item>
+				<item name="logic" access="read/write" datatype="boolean array" initialValue="" description="配置52线联锁的逻辑性（Server本地配置文件读取）"></item> 
+				<item name="mask" access="read/write" datatype="boolean array" initialValue="" description="配置52线联锁的有效性（Server本地配置文件读取）"></item> 
+				<item name="CIRCLEStatus" access="read/write" datatype="boolean array" initialValue="" description="52线联锁的状态"></item> 
+				<item name="HWStatus" access="read/write" datatype="boolean" initialValue="true" description="52线硬件联锁，false为联锁，true为正常。"></item>
+				<item name="HWErrorInfo" access="read/write" datatype="string" initialValue="" description="52线硬件联锁信息码"></item> 
+				<item name="SWStatus" access="read/write" datatype="boolean" initialValue="true" description="52线软件联锁，false为联锁，true为正常。"></item>
+				<item name="SWErrorInfo" access="read/write" datatype="string" initialValue="" description="52线软件联锁信息码"></item> 	
+				<item name="DisableHWError" access="read/write" datatype="boolean" initialValue="false" description="屏蔽52线硬件联锁，true为屏蔽，false为正常。"></item>
+				<item name="DisableSWError" access="read/write" datatype="boolean" initialValue="false" description="屏蔽52线软件联锁，true为屏蔽，false为正常。"></item>
+				<item name="ClearHWError" access="read/write" datatype="boolean" initialValue="false" description="清除52线硬件联锁，true为清除，false为正常。"></item>
+				<item name="ClearSWError" access="read/write" datatype="boolean" initialValue="false" description="清除52线软件联锁，true为清除，false为正常。"></item>
+				<item name="Heartbeat" access="read/write" datatype="uint" initialValue="1" description="52线联锁系统心跳信号，由cRIO程序更新此值"></item>
+			</folder>
+		</folder>	
+		
+		<folder name="MLC">
+			<item name="ControlCommand" access="read/write" datatype="uint16" initialValue="" description="TCS控制MLC的命令"></item>
+			<item name="MLCData" access="read/write" datatype="string" initialValue="" description="TCS需要MLC运动到的叶片、铜门、旋转角度的目标值。格式（A边1,A边2,....;B边1，B边2...;铜门A，铜门B;旋转角度）"></item>
+			<item name="MLCData_acq" access="read/write" datatype="string" initialValue="0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,-19.3512,-22.7595,-22.7595,-22.7595,-22.475,-25.4681,-27.3571,-28.1236,-28.9828,-28.9828,-28.9828,-28.1236,-26.5952,-24.9709,-22.375,-18.4412,-12.9306,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0;0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,-3.57766,4.97369,21.4375,25.4737,28.381,29.9596,29.9596,29.4681,27.9828,27.9828,27.9828,27.1236,26.1007,23.9783,21.375,17.8332,11.9306,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0;0,0;0" description="MLC当前叶片、铜门、旋转角度的反馈值。格式（A边1,A边2,....;B边1，B边2...;铜门A，铜门B;旋转角度）"></item>			
+			<item name="Status" access="read/write" datatype="boolean" initialValue="true" description="MLC联锁状态，false为联锁，true为正常。"></item>			
+			<item name="ErrorInfo" access="read/write" datatype="string" initialValue="" description="MLC错误信息"></item> 	
+			<item name="ClearError" access="read/write" datatype="boolean" initialValue="false" description="TCS清除MLC的错误"></item>
+			<item name="Heartbeat" access="read/write" datatype="uint" initialValue="1" description="MLC心跳信号"></item>
+		</folder>		
+		
+		<folder name="BMS">
+			
+			<folder name="RF">
+				<item name="Position" access="read/write" datatype="string" initialValue="{'Id':'MRF4'}" description="2号治疗室水平治疗头RF当前位置"></item>
+				<item name="TargetPosition" access="read/write" datatype="string" initialValue="" description="2号治疗室水平治疗头RF目标位置"></item>
+				<item name="MoveStatus" access="read/write" datatype="boolean" initialValue="false" description="2号治疗室水平治疗头RF运动状态，true为运动中，false为运动停止"></item>
+				<item name="MoveCommand" access="read/write" datatype="uint16" initialValue="0" description="....."></item>
+				<item name="MoveComplete" access="read/write" datatype="boolean" initialValue="false" description="2号治疗室水平治疗头RF运动完成状态，true为运动中，false为运动完成"></item>
+				<item name="Stop" access="read/write" datatype="boolean" initialValue="false" description="2号治疗室水平治疗头RF运动停止，true为运动停止，false为正常运动"></item>
+				<item name="Status" access="read/write" datatype="boolean" initialValue="true" description="2号治疗室水平治疗头RF联锁状态，false为联锁，true为正常。"></item>
+				<item name="ErrorInfo" access="read/write" datatype="string" initialValue="" description="2号治疗室水平治疗头RF联锁信息码"></item> 	
+				<item name="ClearError" access="read/write" datatype="boolean" initialValue="false" description="清除2号治疗室水平治疗头RF联锁，true为清除，false为正常。"></item>
+				<item name="Heartbeat" access="read/write" datatype="uint" initialValue="1" description="2号治疗室水平治疗头RF心跳信号"></item>
+			</folder>
+			
+			<folder name="RS">
+				<item name="Position" access="read/write" datatype="string" initialValue="{'Thickness':50}" description="2号治疗室水平治疗头RS当前位置，单位：mm"></item>
+				<item name="TargetPosition" access="read/write" datatype="string" initialValue="" description="2号治疗室水平治疗头RS目标位置，单位：mm"></item>
+				<item name="MoveStatus" access="read/write" datatype="boolean" initialValue="false" description="2号治疗室水平治疗头RS运动状态，true为运动中，false为运动停止"></item>
+				<item name="MoveCommand" access="read/write" datatype="uint16" initialValue="0" description="....."></item>
+				<item name="MoveComplete" access="read/write" datatype="boolean" initialValue="false" description="2号治疗室水平治疗头RS运动完成状态，true为运动中，false为运动完成"></item>
+				<item name="Stop" access="read/write" datatype="boolean" initialValue="false" description="2号治疗室水平治疗头RS运动停止，true为运动停止，false为正常运动"></item>
+				<item name="Status" access="read/write" datatype="boolean" initialValue="true" description="2号治疗室水平治疗头RS联锁状态，false为联锁，true为正常。"></item>
+				<item name="ErrorInfo" access="read/write" datatype="string" initialValue="" description="2号治疗室水平治疗头RS联锁信息码"></item> 	
+				<item name="ClearError" access="read/write" datatype="boolean" initialValue="false" description="清除2号治疗室水平治疗头RS联锁，true为清除，false为正常。"></item>
+				<item name="Heartbeat" access="read/write" datatype="uint" initialValue="1" description="2号治疗室水平治疗头RS心跳信号"></item>
+			</folder>
+			
+			<folder name="Compensator">
+				<item name="Position" access="read/write" datatype="string" initialValue="" description="补偿器是否插入和补偿器编码"></item>
+			</folder>
+		</folder>		
+		
+		<folder name="TCP">			
+			<item name="SetNozzleID" access="read/write" datatype="string" initialValue="" description="设置1号治疗室TCP治疗头编号"></item>
+			<item name="SetButtonStatus" access="read/write" datatype="uint16" initialValue="0" description="设置1号治疗室TCP按钮状态"></item>
+			<item name="GetButtonStatus" access="read/write" datatype="uint16" initialValue="0" description="获取1号治疗室TCP按钮状态"></item>
+			<item name="SetIC3PresetValue" access="read/write" datatype="uint" initialValue="0" description="设置1号治疗室TCP IC3的预设计数"></item>
+			<item name="SetIC3CurrentValue" access="read/write" datatype="uint" initialValue="0" description="设置1号治疗室TCP IC3的当前计数"></item>
+			<item name="Status" access="read/write" datatype="boolean" initialValue="true" description="1号治疗室TCP联锁状态，false为联锁，true为正常。"></item>
+			<item name="ErrorInfo" access="read/write" datatype="string" initialValue="" description="1号治疗室TCP联锁信息码"></item> 	
+			<item name="ClearError" access="read/write" datatype="boolean" initialValue="false" description="清除1号治疗室TCP联锁，true为清除，false为正常。"></item>
+			<item name="Heartbeat" access="read/write" datatype="uint" initialValue="1" description="1号治疗室TCP心跳信号"></item>	
+			<item name="GetTCPCmd" access="read/write" datatype="uint16" initialValue="1" description="获取TCP命令"></item>	
+			<item name="SetTCPCmd" access="read/write" datatype="uint16" initialValue="1" description="设置TCP命令"></item>	
+			<item name="ButtonStatus" access="read/write" datatype="uint16" initialValue="0" description="TCP状态"></item>				
+		</folder>		
+		
+		<folder name="ROOM">			
+			<item name="PatientInfo" access="read/write" datatype="string" initialValue="" description="加载的患者信息"></item>
+			<item name="ciGPSInfo" access="read/write" datatype="string" initialValue="" description="图像配准的信息，每次TCS加载患者后将此变量值空"></item>
+			<item name="TargetCouchInfo" access="read/write" datatype="string" initialValue="" description="目标治疗床的位置信息"></item>
+			<item name="BarcodeInfo" access="read/write" datatype="string" initialValue="" description="扫描枪扫描获得的条码"></item>	
+			<item name="BeamInfo" access="read/write" datatype="string" initialValue="" description="射野信息"></item>
+			<item name="MLCDataInfo" access="read/write" datatype="string" initialValue="" description="光栅构型数据(103个值，逗号分割)"></item>
+			<item name="PatientSupportAngle" access="read/write" datatype="double" initialValue="" description="射野入射角，床角"></item>	
+			<item name="TreatProgress" access="read/write" datatype="string" initialValue="" description="治疗大厅进度"></item>					
+		</folder>
+		
+		<folder name="DDS">						
+			<item name="ControlCommand" access="read/write" datatype="uint16" initialValue="1" description="2号治疗室水平治疗头DDS控制命令"></item>
+			<item name="DDSData" access="read/write" datatype="string" initialValue="" description="本次治疗的数据，包括DDS数据和电源数据"></item>
+			<item name="IC1PresetMU" access="read/write" datatype="uint" initialValue="0" description="IC1预设计数"></item>
+			<item name="IC2PresetMU" access="read/write" datatype="uint" initialValue="0" description="IC2预设计数"></item>
+			<item name="LayerCountPreset" access="read/write" datatype="uint" initialValue="0" description="本射野的层数（2D为一层，2DLS有多层）"></item>
+			<item name="PresetTime" access="read/write" datatype="uint" initialValue="4000" description="预设治疗时间，单位：秒"></item>
+			<item name="LayerCountFinished" access="read/write" datatype="uint" initialValue="0" description="已完成的层数"></item>
+			<item name="CurrentLayer" access="read/write" datatype="uint" initialValue="0" description="当前层"></item>
+			<item name="CurrentIC1MU" access="read/write" datatype="uint" initialValue="0" description="IC1的当前计数"></item>
+			<item name="CurrentIC2MU" access="read/write" datatype="uint" initialValue="0" description="IC2的当前计数"></item>
+			<item name="LayerEnergy" access="read/write" datatype="double" initialValue="0" description="当前层所需能量"></item>
+			<item name="PowerXMode" access="read/write" datatype="string" initialValue="" description="X电源运行模式"></item>
+			<item name="PowerXValue" access="read/write" datatype="double" initialValue="0" description="当前X电源电流值（A）"></item>
+			<item name="PowerXStatus" access="read/write" datatype="string" initialValue="" description="X电源状态"></item>
+			<item name="PowerXErrorInfo" access="read/write" datatype="string" initialValue="" description="X电源错误信息"></item>
+			<item name="PowerYMode" access="read/write" datatype="string" initialValue="" description="Y电源运行模式"></item>
+			<item name="PowerYValue" access="read/write" datatype="double" initialValue="0" description="当前Y电源电流值（A）"></item>
+			<item name="PowerYStatus" access="read/write" datatype="string" initialValue="" description="Y电源状态"></item>
+			<item name="PowerYErrorInfo" access="read/write" datatype="string" initialValue="" description="Y电源错误信息"></item>
+			<item name="SetPowerCommand" access="read/write" datatype="uint16" initialValue="0" description="电源控制命令（开机、关机、复位、归零）"></item>
+			<item name="CurrentCommand" access="read/write" datatype="uint16" initialValue="0" description="2号治疗室水平治疗头DDS当前指令"></item>
+			<item name="EnablePositionInterlock" access="read/write" datatype="boolean" initialValue="false" description="启用位置联锁，true为启用，false为禁用（治疗模式下设置无效）"></item>
+			<item name="ControllerStatus" access="read/write" datatype="boolean" initialValue="false" description="DDS控制器联锁状态，false为联锁，true为正常。"></item>
+			<item name="ControllerErrorInfo" access="read/write" datatype="string" initialValue="" description="DDS控制器联锁详细信息"></item> 	
+			<item name="ClearControllerError" access="read/write" datatype="boolean" initialValue="false" description="清除DDS控制器联锁，true为清除，false为正常。"></item>
+			<item name="Status" access="read/write" datatype="boolean" initialValue="true" description="DDS系统联锁状态，false为联锁，true为正常。"></item>
+			<item name="ErrorInfo" access="read/write" datatype="string" initialValue="" description="DDS系统联锁信息码"></item> 	
+			<item name="SystemInfo" access="read/write" datatype="string" initialValue="" description="DDS系统当前状态码"></item>
+			<item name="ClearError" access="read/write" datatype="boolean" initialValue="false" description="清除DDS系统联锁，true为清除，false为正常。"></item>
+			<item name="ClearPositionInterlock" access="read/write" datatype="boolean" initialValue="false" description="清除位置联锁，true为清除，false为正常。"></item>
+			<item name="Heartbeat" access="read/write" datatype="uint" initialValue="1" description="DDS心跳信号"></item>
+			<item name="BeamApplyHeartbeat" access="read/write" datatype="uint" initialValue="0" description="DDS申请束流等待时间（s）"></item>
+			<item name="PowerHeartbeat" access="read/write" datatype="uint" initialValue="1" description="电源心跳信号"></item>		
+		</folder>		
+		
+		<folder name="ITS">						
+			<item name="ControlCommand" access="read/write" datatype="uint16" initialValue="1" description="1号治疗室ITS控制命令"></item>
+			<item name="ITSData" access="read/write" datatype="string" initialValue="1;4000" description="本次治疗的数据"></item>
+			<item name="PresetMU" access="read/write" datatype="uint" initialValue="0" description="ITS预设计数（IC3的预设计数）"></item>
+			<item name="PresetTime" access="read/write" datatype="uint" initialValue="4000" description="预设治疗时间，单位：秒"></item>
+			<item name="CurrentMU" access="read/write" datatype="uint" initialValue="0" description="当前计数（IC3的当前计数）"></item>
+			<item name="DoseRate" access="read/write" datatype="uint" initialValue="0" description="当前剂量率"></item>
+			<item name="ControllerStatus" access="read/write" datatype="boolean" initialValue="true" description="DDS控制器联锁状态，false为联锁，true为正常。"></item>
+			<item name="ControllerErrorInfo" access="read/write" datatype="string" initialValue="" description="DDS控制器联锁详细信息"></item> 	
+			<item name="ClearControllerError" access="read/write" datatype="boolean" initialValue="false" description="清除DDS控制器联锁，true为清除，false为正常。"></item>
+			<item name="Status" access="read/write" datatype="boolean" initialValue="true" description="DDS系统联锁状态，false为联锁，true为正常。"></item>
+			<item name="ErrorInfo" access="read/write" datatype="string" initialValue="" description="DDS系统联锁信息码"></item> 	
+			<item name="ClearError" access="read/write" datatype="boolean" initialValue="false" description="清除DDS系统联锁，true为清除，false为正常。"></item>
+			<item name="Heartbeat" access="read/write" datatype="uint" initialValue="1" description="DDS心跳信号"></item>			
+		</folder>
+		
+		<folder name="IGPS">
+			<folder name="CBCT">
+				<item name="TcsCommand" access="read/write" datatype="string" initialValue="" description="由TCS填充节点内容，IGPS读取系欸但内容"></item>
+				<item name="IgpsCommand" access="read/write" datatype="string" initialValue="" description="由IGPS填充节点内容，TCS读取系欸但内容"></item>
+				<item name="Heartbeat" access="read/write" datatype="uint" initialValue="0" description="IGPS心跳信号"></item>
+			</folder>
+			<folder name="DR">
+				<item name="TcsCommand" access="read/write" datatype="string" initialValue="" description="由TCS填充节点内容，IGPS读取系欸但内容"></item>
+				<item name="IgpsCommand" access="read/write" datatype="string" initialValue="" description="由IGPS填充节点内容，TCS读取系欸但内容"></item>
+				<item name="Heartbeat" access="read/write" datatype="uint" initialValue="0" description="IGPS心跳信号"></item>
+			</folder>
+		</folder>
+	</folder>
+	
+</structure>
+</opcua_server>
+
+
